@@ -441,7 +441,9 @@ define([
                     this.devHintInited = true;
                 }
             }
-            this.developerHint && this.developerHint.toggleClass('hidden', !((mode & Asc.c_oLicenseMode.Trial) || (mode & Asc.c_oLicenseMode.Developer)));
+            
+            // Modified by sp on 2025-10 to hide developer hint always
+            this.developerHint && this.developerHint.toggleClass('hidden', true);
 
             if (beta) {
                 if (!this.betaHint) {
