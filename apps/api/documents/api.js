@@ -4,7 +4,7 @@
  * http://www.onlyoffice.com
  */
 
-;(function(DocsAPI, window, document, undefined) {
+; (function (DocsAPI, window, document, undefined) {
 
     /*
 
@@ -372,7 +372,7 @@
 
     // TODO: allow several instances on one page simultaneously
 
-    DocsAPI.DocEditor = function(placeholderId, config) {
+    DocsAPI.DocEditor = function (placeholderId, config) {
         var _self = this,
             _config = config || {};
 
@@ -411,7 +411,7 @@
             _processMouse(evt);
         };
 
-        var _attachMouseEvents = function() {
+        var _attachMouseEvents = function () {
             if (window.addEventListener) {
                 window.addEventListener("mouseup", onMouseUp, false)
             } else if (window.attachEvent) {
@@ -419,7 +419,7 @@
             }
         };
 
-        var _detachMouseEvents = function() {
+        var _detachMouseEvents = function () {
             if (window.removeEventListener) {
                 window.removeEventListener("mouseup", onMouseUp, false)
             } else if (window.detachEvent) {
@@ -427,7 +427,7 @@
             }
         };
 
-        var _onAppReady = function() {
+        var _onAppReady = function () {
             _attachMouseEvents();
 
             if (_config.editorConfig) {
@@ -439,62 +439,62 @@
             }
         };
 
-        var _onMessage = function(msg) {
-            if ( msg ) {
-                if ( msg.type === "onExternalPluginMessage" ) {
+        var _onMessage = function (msg) {
+            if (msg) {
+                if (msg.type === "onExternalPluginMessage") {
                     _sendCommand(msg);
                 } else if ((window.parent !== window) && msg.type === "onExternalPluginMessageCallback") {
                     postMessage(window.parent, msg);
                 } else
-                if ( msg.frameEditorId == placeholderId ) {
-                    var events = _config.events || {},
-                        handler = events[msg.event],
-                        res;
+                    if (msg.frameEditorId == placeholderId) {
+                        var events = _config.events || {},
+                            handler = events[msg.event],
+                            res;
 
-                    if (msg.event === 'onRequestEditRights' && !handler) {
-                        _applyEditRights(false, 'handler isn\'t defined');
-                    } else
-                    if (msg.event === 'onSwitchEditorType' && !handler) {
-                        if ( msg.data ) {
-                            if ( typeof msg.data.type == 'string' )
-                                localStorage.setItem('asc-force-editor-type', msg.data.type);
+                        if (msg.event === 'onRequestEditRights' && !handler) {
+                            _applyEditRights(false, 'handler isn\'t defined');
+                        } else
+                            if (msg.event === 'onSwitchEditorType' && !handler) {
+                                if (msg.data) {
+                                    if (typeof msg.data.type == 'string')
+                                        localStorage.setItem('asc-force-editor-type', msg.data.type);
 
-                            if ( msg.data.restart )
-                                window.location.reload();
-                        }
-                    } else {
-                        if (msg.event === 'onAppReady') {
-                            _onAppReady();
-                        }
+                                    if (msg.data.restart)
+                                        window.location.reload();
+                                }
+                            } else {
+                                if (msg.event === 'onAppReady') {
+                                    _onAppReady();
+                                }
 
-                        if (handler && typeof handler == "function") {
-                            res = handler.call(_self, {target: _self, data: msg.data});
-                        }
+                                if (handler && typeof handler == "function") {
+                                    res = handler.call(_self, { target: _self, data: msg.data });
+                                }
+                            }
                     }
-                }
             }
         };
 
-        var _checkConfigParams = function() {
+        var _checkConfigParams = function () {
             if (_config.document) {
-                if (!_config.document.url || ((typeof _config.document.fileType !== 'string' || _config.document.fileType=='') &&
-                                              (typeof _config.documentType !== 'string' || _config.documentType==''))) {
+                if (!_config.document.url || ((typeof _config.document.fileType !== 'string' || _config.document.fileType == '') &&
+                    (typeof _config.documentType !== 'string' || _config.documentType == ''))) {
                     window.alert("One or more required parameter for the config object is not set");
                     return false;
                 }
 
                 var appMap = {
-                        'text': 'docx',
-                        'text-pdf': 'pdf',
-                        'spreadsheet': 'xlsx',
-                        'presentation': 'pptx',
-                        'word': 'docx',
-                        'cell': 'xlsx',
-                        'slide': 'pptx',
-                        'pdf': 'pdf'
-                    }, app;
+                    'text': 'docx',
+                    'text-pdf': 'pdf',
+                    'spreadsheet': 'xlsx',
+                    'presentation': 'pptx',
+                    'word': 'docx',
+                    'cell': 'xlsx',
+                    'slide': 'pptx',
+                    'pdf': 'pdf'
+                }, app;
 
-                if (_config.documentType=='text' || _config.documentType=='spreadsheet' ||_config.documentType=='presentation')
+                if (_config.documentType == 'text' || _config.documentType == 'spreadsheet' || _config.documentType == 'presentation')
                     console.warn("The \"documentType\" parameter for the config object must take one of the values word/cell/slide/pdf.");
 
                 if (typeof _config.documentType === 'string' && _config.documentType != '') {
@@ -510,15 +510,15 @@
                 if (typeof _config.document.fileType === 'string' && _config.document.fileType != '') {
                     _config.document.fileType = _config.document.fileType.toLowerCase();
                     var type = /^(?:(xls|xlsx|ods|csv|gsheet|xlsm|xlt|xltm|xltx|fods|ots|xlsb|sxc|et|ett|numbers)|(pps|ppsx|ppt|pptx|odp|gslides|pot|potm|potx|ppsm|pptm|fodp|otp|sxi|dps|dpt|key)|(pdf|djvu|xps|oxps)|(doc|docx|odt|gdoc|txt|rtf|mht|htm|html|mhtml|epub|docm|dot|dotm|dotx|fodt|ott|fb2|xml|oform|docxf|sxw|stw|wps|wpt|pages|hwp|hwpx))$/
-                                    .exec(_config.document.fileType);
+                        .exec(_config.document.fileType);
                     if (!type) {
                         window.alert("The \"document.fileType\" parameter for the config object is invalid. Please correct it.");
                         return false;
-                    } else if (typeof _config.documentType !== 'string' || _config.documentType == ''){
+                    } else if (typeof _config.documentType !== 'string' || _config.documentType == '') {
                         if (typeof type[1] === 'string') _config.documentType = 'cell'; else
-                        if (typeof type[2] === 'string') _config.documentType = 'slide'; else
-                        if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
-                        if (typeof type[4] === 'string') _config.documentType = 'word';
+                            if (typeof type[2] === 'string') _config.documentType = 'slide'; else
+                                if (typeof type[3] === 'string') _config.documentType = 'pdf'; else
+                                    if (typeof type[4] === 'string') _config.documentType = 'word';
                     }
                 }
 
@@ -527,11 +527,11 @@
                     _config.editorConfig.canUseHistory = false;
                 }
 
-                if (!_config.document.title || _config.document.title=='')
+                if (!_config.document.title || _config.document.title == '')
                     _config.document.title = 'Unnamed.' + _config.document.fileType;
 
                 if (!_config.document.key) {
-                    _config.document.key = 'xxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function (c) {var r = Math.random() * 16 | 0; return r.toString(16);});
+                    _config.document.key = 'xxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function (c) { var r = Math.random() * 16 | 0; return r.toString(16); });
                 } else if (typeof _config.document.key !== 'string') {
                     window.alert("The \"document.key\" parameter for the config object must be string. Please correct it.");
                     return false;
@@ -544,18 +544,17 @@
 
                 _config.document.token = _config.token;
             }
-            
+
             return true;
         };
 
-        (function() {
+        (function () {
             var result = /[\?\&]placement=(\w+)&?/.exec(window.location.search);
-            if (!!result && result.length && result[1] == 'desktop' ) {
+            if (!!result && result.length && result[1] == 'desktop') {
                 console.warn('some errors occurred in the desktop app while document opening. please, contact with support team');
             }
 
-            if (!!window.AscDesktopEditor)
-            {
+            if (!!window.AscDesktopEditor) {
                 _config.editorConfig.targetApp = 'desktop';
                 // _config.editorConfig.canBackToFolder = false;
                 if (!_config.editorConfig.customization) _config.editorConfig.customization = {};
@@ -571,11 +570,11 @@
 
         if (target && _checkConfigParams()) {
             iframe = createIframe(_config);
-            if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode==='embed')
+            if (_config.editorConfig.customization && _config.editorConfig.customization.integrationMode === 'embed')
                 window.AscEmbed && window.AscEmbed.initWorker(iframe);
 
-            if (_config.document && (_config.document.isForm!==true && _config.document.isForm!==false)) {
-                iframe.onload = function() {
+            if (_config.document && (_config.document.isForm !== true && _config.document.isForm !== false)) {
+                iframe.onload = function () {
                     _sendCommand({
                         command: 'checkParams',
                         data: {
@@ -603,7 +602,7 @@
          }
          */
 
-        var _destroyEditor = function(cmd) {
+        var _destroyEditor = function (cmd) {
             var target = document.createElement("div");
             target.setAttribute('id', placeholderId);
 
@@ -614,12 +613,12 @@
             }
         };
 
-        var _sendCommand = function(cmd, buffer) {
+        var _sendCommand = function (cmd, buffer) {
             if (iframe && iframe.contentWindow)
                 postMessage(iframe.contentWindow, cmd, buffer);
         };
 
-        var _init = function(editorConfig) {
+        var _init = function (editorConfig) {
             _sendCommand({
                 command: 'init',
                 data: {
@@ -628,7 +627,7 @@
             });
         };
 
-        var _openDocument = function(doc) {
+        var _openDocument = function (doc) {
             _sendCommand({
                 command: 'openDocument',
                 data: {
@@ -637,14 +636,14 @@
             });
         };
 
-        var _openDocumentFromBinary = function(doc) {
+        var _openDocumentFromBinary = function (doc) {
             doc && _sendCommand({
                 command: 'openDocumentFromBinary',
                 data: doc.buffer
             }, doc.buffer);
         };
 
-        var _showMessage = function(title, msg) {
+        var _showMessage = function (title, msg) {
             msg = msg || title;
             _sendCommand({
                 command: 'showMessage',
@@ -654,7 +653,7 @@
             });
         };
 
-        var _applyEditRights = function(allowed, message) {
+        var _applyEditRights = function (allowed, message) {
             _sendCommand({
                 command: 'applyEditRights',
                 data: {
@@ -664,7 +663,7 @@
             });
         };
 
-        var _processSaveResult = function(result, message) {
+        var _processSaveResult = function (result, message) {
             _sendCommand({
                 command: 'processSaveResult',
                 data: {
@@ -675,7 +674,7 @@
         };
 
         // TODO: remove processRightsChange, use denyEditingRights
-        var _processRightsChange = function(enabled, message) {
+        var _processRightsChange = function (enabled, message) {
             _sendCommand({
                 command: 'processRightsChange',
                 data: {
@@ -685,7 +684,7 @@
             });
         };
 
-        var _denyEditingRights = function(message) {
+        var _denyEditingRights = function (message) {
             _sendCommand({
                 command: 'processRightsChange',
                 data: {
@@ -695,7 +694,7 @@
             });
         };
 
-        var _refreshHistory = function(data, message) {
+        var _refreshHistory = function (data, message) {
             _sendCommand({
                 command: 'refreshHistory',
                 data: {
@@ -705,7 +704,7 @@
             });
         };
 
-        var _setHistoryData = function(data, message) {
+        var _setHistoryData = function (data, message) {
             _sendCommand({
                 command: 'setHistoryData',
                 data: {
@@ -715,7 +714,7 @@
             });
         };
 
-        var _setEmailAddresses = function(data) {
+        var _setEmailAddresses = function (data) {
             _sendCommand({
                 command: 'setEmailAddresses',
                 data: {
@@ -733,7 +732,7 @@
             });
         };
 
-        var _processMailMerge = function(enabled, message) {
+        var _processMailMerge = function (enabled, message) {
             _sendCommand({
                 command: 'processMailMerge',
                 data: {
@@ -743,105 +742,110 @@
             });
         };
 
-        var _downloadAs = function(data) {
+        var _downloadAs = function (data) {
             _sendCommand({
                 command: 'downloadAs',
                 data: data
             });
         };
 
-        var _setUsers = function(data) {
+        var _setUsers = function (data) {
             _sendCommand({
                 command: 'setUsers',
                 data: data
             });
         };
 
-        var _showSharingSettings = function(data) {
+        var _showSharingSettings = function (data) {
             _sendCommand({
                 command: 'showSharingSettings',
                 data: data
             });
         };
 
-        var _setSharingSettings = function(data) {
+        var _setSharingSettings = function (data) {
             _sendCommand({
                 command: 'setSharingSettings',
                 data: data
             });
         };
 
-        var _insertImage = function(data) {
+        var _insertImage = function (data) {
             _sendCommand({
                 command: 'insertImage',
                 data: data
             });
         };
-
-        var _setMailMergeRecipients = function(data) {
+        var _insertSignature = function (data) {
+            _sendCommand({
+                command: 'insertSignature',
+                data: data
+            });
+        };
+        var _setMailMergeRecipients = function (data) {
             _sendCommand({
                 command: 'setMailMergeRecipients',
                 data: data
             });
         };
 
-        var _setRevisedFile = function(data) {
+        var _setRevisedFile = function (data) {
             _sendCommand({
                 command: 'setRevisedFile',
                 data: data
             });
         };
 
-        var _setRequestedDocument = function(data) {
+        var _setRequestedDocument = function (data) {
             _sendCommand({
                 command: 'setRequestedDocument',
                 data: data
             });
         };
 
-        var _setRequestedSpreadsheet = function(data) {
+        var _setRequestedSpreadsheet = function (data) {
             _sendCommand({
                 command: 'setRequestedSpreadsheet',
                 data: data
             });
         };
 
-        var _setReferenceSource = function(data) {
+        var _setReferenceSource = function (data) {
             _sendCommand({
                 command: 'setReferenceSource',
                 data: data
             });
         };
 
-        var _setFavorite = function(data) {
+        var _setFavorite = function (data) {
             _sendCommand({
                 command: 'setFavorite',
                 data: data
             });
         };
 
-        var _requestClose = function(data) {
+        var _requestClose = function (data) {
             _sendCommand({
                 command: 'requestClose',
                 data: data
             });
         };
 
-        var _startFilling = function(data) {
+        var _startFilling = function (data) {
             _sendCommand({
                 command: 'startFilling',
                 data: data
             });
         };
 
-        var _requestRoles = function(data) {
+        var _requestRoles = function (data) {
             _sendCommand({
                 command: 'requestRoles',
                 data: data
             });
         };
 
-        var _processMouse = function(evt) {
+        var _processMouse = function (evt) {
             var r = iframe.getBoundingClientRect();
             var data = {
                 type: evt.type,
@@ -856,8 +860,8 @@
             });
         };
 
-        var _grabFocus = function(data) {
-            setTimeout(function(){
+        var _grabFocus = function (data) {
+            setTimeout(function () {
                 _sendCommand({
                     command: 'grabFocus',
                     data: data
@@ -865,28 +869,28 @@
             }, 10);
         };
 
-        var _blurFocus = function(data) {
+        var _blurFocus = function (data) {
             _sendCommand({
                 command: 'blurFocus',
                 data: data
             });
         };
 
-        var _setReferenceData = function(data) {
+        var _setReferenceData = function (data) {
             _sendCommand({
                 command: 'setReferenceData',
                 data: data
             });
         };
 
-        var _refreshFile = function(data) {
+        var _refreshFile = function (data) {
             _sendCommand({
                 command: 'refreshFile',
                 data: data
             });
         };
 
-        var _serviceCommand = function(command, data) {
+        var _serviceCommand = function (command, data) {
             _sendCommand({
                 command: 'internalCommand',
                 data: {
@@ -897,32 +901,33 @@
         };
 
         return {
-            showMessage         : _showMessage,
-            processSaveResult   : _processSaveResult,
-            processRightsChange : _processRightsChange,
-            denyEditingRights   : _denyEditingRights,
-            refreshHistory      : _refreshHistory,
-            setHistoryData      : _setHistoryData,
-            setEmailAddresses   : _setEmailAddresses,
-            setActionLink       : _setActionLink,
-            processMailMerge    : _processMailMerge,
-            downloadAs          : _downloadAs,
-            serviceCommand      : _serviceCommand,
-            attachMouseEvents   : _attachMouseEvents,
-            detachMouseEvents   : _detachMouseEvents,
-            destroyEditor       : _destroyEditor,
-            setUsers            : _setUsers,
-            showSharingSettings : _showSharingSettings,
-            setSharingSettings  : _setSharingSettings,
-            insertImage         : _insertImage,
+            showMessage: _showMessage,
+            processSaveResult: _processSaveResult,
+            processRightsChange: _processRightsChange,
+            denyEditingRights: _denyEditingRights,
+            refreshHistory: _refreshHistory,
+            setHistoryData: _setHistoryData,
+            setEmailAddresses: _setEmailAddresses,
+            setActionLink: _setActionLink,
+            processMailMerge: _processMailMerge,
+            downloadAs: _downloadAs,
+            serviceCommand: _serviceCommand,
+            attachMouseEvents: _attachMouseEvents,
+            detachMouseEvents: _detachMouseEvents,
+            destroyEditor: _destroyEditor,
+            setUsers: _setUsers,
+            showSharingSettings: _showSharingSettings,
+            setSharingSettings: _setSharingSettings,
+            insertImage: _insertImage,
+            insertSignature: _insertSignature,
             setMailMergeRecipients: _setMailMergeRecipients,
-            setRevisedFile      : _setRevisedFile,
-            setFavorite         : _setFavorite,
-            requestClose        : _requestClose,
-            grabFocus           : _grabFocus,
-            blurFocus           : _blurFocus,
-            setReferenceData    : _setReferenceData,
-            refreshFile         : _refreshFile,
+            setRevisedFile: _setRevisedFile,
+            setFavorite: _setFavorite,
+            requestClose: _requestClose,
+            grabFocus: _grabFocus,
+            blurFocus: _blurFocus,
+            setReferenceData: _setReferenceData,
+            refreshFile: _refreshFile,
             setRequestedDocument: _setRequestedDocument,
             setRequestedSpreadsheet: _setRequestedSpreadsheet,
             setReferenceSource: _setReferenceSource,
@@ -947,18 +952,18 @@
         }
     };
 
-    DocsAPI.DocEditor.version = function() {
+    DocsAPI.DocEditor.version = function () {
         return '{{PRODUCT_VERSION}}';
     };
 
-    MessageDispatcher = function(fn, scope) {
-        var _fn     = fn,
-            _scope  = scope || window,
-            eventFn = function(msg) {
+    MessageDispatcher = function (fn, scope) {
+        var _fn = fn,
+            _scope = scope || window,
+            eventFn = function (msg) {
                 _onMessage(msg);
             };
 
-        var _bindEvents = function() {
+        var _bindEvents = function () {
             if (window.addEventListener) {
                 window.addEventListener("message", eventFn, false)
             }
@@ -967,7 +972,7 @@
             }
         };
 
-        var _unbindEvents = function() {
+        var _unbindEvents = function () {
             if (window.removeEventListener) {
                 window.removeEventListener("message", eventFn, false)
             }
@@ -976,9 +981,9 @@
             }
         };
 
-        var _onMessage = function(msg) {
+        var _onMessage = function (msg) {
             // TODO: check message origin
-            if (msg && window.JSON && _scope.frameOrigin==msg.origin ) {
+            if (msg && window.JSON && _scope.frameOrigin == msg.origin) {
                 if (msg.data && msg.data.event === 'onSaveDocument') {
                     if (_fn) {
                         _fn.call(_scope, msg.data);
@@ -991,7 +996,7 @@
                     if (_fn) {
                         _fn.call(_scope, msg);
                     }
-                } catch(e) {}
+                } catch (e) { }
             }
         };
 
@@ -1028,7 +1033,7 @@
     }
 
     function getExtensionPath() {
-        if ("undefined" == typeof(extensionParams) || null == extensionParams["url"])
+        if ("undefined" == typeof (extensionParams) || null == extensionParams["url"])
             return null;
         return extensionParams["url"] + "apps/";
     }
@@ -1053,19 +1058,18 @@
             const storage = window['localStorage'];
             return true;
         }
-        catch(e) {
+        catch (e) {
             return false;
         }
     }
 
     function correct_app_type(config) {
-        if ( config.type == 'mobile' ) {
-            if ( !config.editorConfig.customization || !config.editorConfig.customization.mobile ||
-                    config.editorConfig.customization.mobile.disableForceDesktop !== true )
-            {
-                if ( isLocalStorageAvailable() ) {
+        if (config.type == 'mobile') {
+            if (!config.editorConfig.customization || !config.editorConfig.customization.mobile ||
+                config.editorConfig.customization.mobile.disableForceDesktop !== true) {
+                if (isLocalStorageAvailable()) {
                     const f = localStorage.getItem('asc-force-editor-type');
-                    if ( f === 'desktop' ) {
+                    if (f === 'desktop') {
                         config.editorConfig.forceDesktop = true;
                         return 'desktop';
                     }
@@ -1078,7 +1082,7 @@
 
     function getAppPath(config) {
         var extensionPath = getExtensionPath(),
-            path = extensionPath ? extensionPath : (config.type=="test" ? getTestPath() : getBasePath()),
+            path = extensionPath ? extensionPath : (config.type == "test" ? getTestPath() : getBasePath()),
             appMap = {
                 'text': 'documenteditor',
                 'text-pdf': 'documenteditor',
@@ -1100,8 +1104,8 @@
                     .exec(config.document.fileType);
 
             if (config.document.permissions)
-                fillForms = (config.document.permissions.fillForms===undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
-                            config.editorConfig && (config.editorConfig.mode !== 'view');
+                fillForms = (config.document.permissions.fillForms === undefined ? config.document.permissions.edit !== false : config.document.permissions.fillForms) &&
+                    config.editorConfig && (config.editorConfig.mode !== 'view');
         }
         var corrected_type = correct_app_type(config);
         if (type && typeof type[2] === 'string') { // djvu|xps|oxps
@@ -1109,9 +1113,9 @@
         } else if (type && typeof type[1] === 'string') { // pdf - need check
             isForm = config.document ? config.document.isForm : undefined;
             if (corrected_type === 'embedded')
-                appType = fillForms && isForm===undefined ? 'common' : 'word';
+                appType = fillForms && isForm === undefined ? 'common' : 'word';
             else if (corrected_type !== 'mobile')
-                appType = isForm===undefined ? 'common' : isForm ? 'word' : 'pdf';
+                appType = isForm === undefined ? 'common' : isForm ? 'word' : 'pdf';
         } else if (type && typeof type[5] === 'string') { // oform|docxf
             appType = 'word';
         } else {
@@ -1119,23 +1123,23 @@
                 appType = config.documentType.toLowerCase();
             else {
                 if (type && typeof type[3] === 'string') appType = 'cell'; else
-                if (type && typeof type[4] === 'string') appType = 'slide';
+                    if (type && typeof type[4] === 'string') appType = 'slide';
             }
         }
-        if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key))
+        if (!(config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey !== config.document.key))
             path = extendAppPath(config, path);
         path += appMap[appType];
 
         const path_type = corrected_type === "mobile" ? "mobile" :
-                          corrected_type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
+            corrected_type === "embedded" ? (fillForms && isForm ? "forms" : "embed") : "main";
         if (appType !== 'common')
             path += "/" + path_type;
 
         var index = "/index.html";
-        if (config.editorConfig && path_type!=="forms" && appType!=='common') {
+        if (config.editorConfig && path_type !== "forms" && appType !== 'common') {
             var customization = config.editorConfig.customization;
-            if ( typeof(customization) == 'object' && ( customization.toolbarNoTabs ||
-               (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
+            if (typeof (customization) == 'object' && (customization.toolbarNoTabs ||
+                (config.editorConfig.targetApp !== 'desktop') && (customization.loaderName || customization.loaderLogo))) {
                 index = "/index_loader.html";
             } else if (config.editorConfig.mode === 'editdiagram' || config.editorConfig.mode === 'editmerge' || config.editorConfig.mode === 'editole')
                 index = "/index_internal.html";
@@ -1150,23 +1154,23 @@
         if (config.editorConfig && config.editorConfig.lang)
             params += "&lang=" + config.editorConfig.lang;
 
-        if (config.editorConfig && config.editorConfig.targetApp!=='desktop') {
-            if ( (typeof(config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderName) {
+        if (config.editorConfig && config.editorConfig.targetApp !== 'desktop') {
+            if ((typeof (config.editorConfig.customization) == 'object') && config.editorConfig.customization.loaderName) {
                 if (config.editorConfig.customization.loaderName !== 'none') params += "&customer=" + encodeURIComponent(config.editorConfig.customization.loaderName);
             } else
                 params += "&customer={{APP_CUSTOMER_NAME}}";
-            if (typeof(config.editorConfig.customization) == 'object') {
-                if ( config.editorConfig.customization.loaderLogo && config.editorConfig.customization.loaderLogo !== '') {
+            if (typeof (config.editorConfig.customization) == 'object') {
+                if (config.editorConfig.customization.loaderLogo && config.editorConfig.customization.loaderLogo !== '') {
                     params += "&logo=" + encodeURIComponent(config.editorConfig.customization.loaderLogo);
                 }
-                if ( config.editorConfig.customization.logo ) {
-                    if (config.editorConfig.customization.logo.visible===false) {
+                if (config.editorConfig.customization.logo) {
+                    if (config.editorConfig.customization.logo.visible === false) {
                         params += "&headerlogo=";
-                    } else if (config.type=='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded || config.editorConfig.customization.logo.imageDark)) {
+                    } else if (config.type == 'embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded || config.editorConfig.customization.logo.imageDark)) {
                         (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded) && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageEmbedded));
                         config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
                         config.editorConfig.customization.logo.imageLight && (params += "&headerlogolight=" + encodeURIComponent(config.editorConfig.customization.logo.imageLight));
-                    } else if (config.type!='embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark || config.editorConfig.customization.logo.imageLight)) {
+                    } else if (config.type != 'embedded' && (config.editorConfig.customization.logo.image || config.editorConfig.customization.logo.imageDark || config.editorConfig.customization.logo.imageLight)) {
                         config.editorConfig.customization.logo.image && (params += "&headerlogo=" + encodeURIComponent(config.editorConfig.customization.logo.image));
                         config.editorConfig.customization.logo.imageDark && (params += "&headerlogodark=" + encodeURIComponent(config.editorConfig.customization.logo.imageDark));
                         config.editorConfig.customization.logo.imageLight && (params += "&headerlogolight=" + encodeURIComponent(config.editorConfig.customization.logo.imageLight));
@@ -1189,14 +1193,14 @@
             oldForm = type && typeof type[2] === 'string';
 
         if (!(isPdf || oldForm) && (config.editorConfig && config.editorConfig.mode == 'view' ||
-            config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review )))
+            config.document && config.document.permissions && (config.document.permissions.edit === false && !config.document.permissions.review)))
             params += "&mode=view";
         if ((isPdf || oldForm) && (config.document && config.document.permissions && config.document.permissions.edit === false || config.editorConfig && config.editorConfig.mode == 'view'))
             params += "&mode=fillforms";
 
         if (config.document) {
             config.document.isForm = isPdf ? config.document.isForm : !!oldForm;
-            (config.document.isForm===true || config.document.isForm===false) && (params += "&isForm=" + config.document.isForm);
+            (config.document.isForm === true || config.document.isForm === false) && (params += "&isForm=" + config.document.isForm);
         }
 
         if (config.editorConfig && config.editorConfig.customization && !!config.editorConfig.customization.compactHeader)
@@ -1204,29 +1208,29 @@
 
         if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.features && config.editorConfig.customization.features.tabBackground) {
             if (typeof config.editorConfig.customization.features.tabBackground === 'object') {
-                params += "&tabBackground=" + (config.editorConfig.customization.features.tabBackground.mode || "header") + (config.editorConfig.customization.features.tabBackground.change!==false ? "-ls" : "");
+                params += "&tabBackground=" + (config.editorConfig.customization.features.tabBackground.mode || "header") + (config.editorConfig.customization.features.tabBackground.change !== false ? "-ls" : "");
             } else
                 params += "&tabBackground=" + config.editorConfig.customization.features.tabBackground + "-ls";
         }
 
-        if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar===false))
+        if (config.editorConfig && config.editorConfig.customization && (config.editorConfig.customization.toolbar === false))
             params += "&toolbar=false";
 
         if (config.parentOrigin)
             params += "&parentOrigin=" + config.parentOrigin;
 
-        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme )
+        if (config.editorConfig && config.editorConfig.customization && config.editorConfig.customization.uiTheme)
             params += "&uitheme=" + config.editorConfig.customization.uiTheme;
 
         if (config.document && config.document.fileType)
             params += "&fileType=" + config.document.fileType;
 
-        if (config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey!==config.document.key)
+        if (config.editorConfig && config.editorConfig.shardkey && config.document && config.editorConfig.shardkey !== config.document.key)
             params += "&shardkey=" + config.document.key;
 
         if (config.editorConfig) {
             var customization = config.editorConfig.customization;
-            if ( customization && typeof(customization) == 'object' && ( customization.toolbarNoTabs || (config.editorConfig.targetApp!=='desktop') && (customization.loaderName || customization.loaderLogo))) {
+            if (customization && typeof (customization) == 'object' && (customization.toolbarNoTabs || (config.editorConfig.targetApp !== 'desktop') && (customization.loaderName || customization.loaderLogo))) {
                 params += "&indexPostfix=_loader";
             }
         }
@@ -1248,16 +1252,15 @@
         iframe.name = "frameEditor";
         config.title && (typeof config.title === 'string') && (iframe.title = config.title);
         iframe.allowFullscreen = true;
-        iframe.setAttribute("allowfullscreen",""); // for IE11
-        iframe.setAttribute("onmousewheel",""); // for Safari on Mac
+        iframe.setAttribute("allowfullscreen", ""); // for IE11
+        iframe.setAttribute("onmousewheel", ""); // for Safari on Mac
         iframe.setAttribute("allow", "autoplay; camera; microphone; display-capture; clipboard-write;");
 
-		if (config.type == "mobile")
-		{
-			iframe.style.position = "fixed";
+        if (config.type == "mobile") {
+            iframe.style.position = "fixed";
             iframe.style.overflow = "hidden";
             document.body.style.overscrollBehaviorY = "contain";
-		}
+        }
         return iframe;
     }
 
@@ -1274,21 +1277,21 @@
                 if (typeof dest[prop] === 'undefined') {
                     dest[prop] = src[prop];
                 } else
-                if (typeof dest[prop] === 'object' &&
+                    if (typeof dest[prop] === 'object' &&
                         typeof src[prop] === 'object') {
-                    extend(dest[prop], src[prop])
-                }
+                        extend(dest[prop], src[prop])
+                    }
             }
         }
         return dest;
     }
 
-    function extendAppPath(config,  path) {
-        if ( !config.isLocalFile ) {
+    function extendAppPath(config, path) {
+        if (!config.isLocalFile) {
             const ver = '/{{PRODUCT_VERSION}}-{{HASH_POSTFIX}}';
-            if ( ver.lastIndexOf('{{') < 0 && path.indexOf(ver) < 0 ) {
+            if (ver.lastIndexOf('{{') < 0 && path.indexOf(ver) < 0) {
                 const pos = path.indexOf('/web-apps/app');
-                if ( pos > 0 )
+                if (pos > 0)
                     return [path.slice(0, pos), ver, path.slice(pos)].join('');
             }
         }

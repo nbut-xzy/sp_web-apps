@@ -34,430 +34,432 @@ if (window.Common === undefined) {
     window.Common = {};
 }
 
-    Common.Gateway = new(function() {
-        var me = this,
-            $me = $(me);
+Common.Gateway = new (function () {
+    var me = this,
+        $me = $(me);
 
-        var commandMap = {
-            'init': function(data) {
-                $me.trigger('init', data);
-            },
+    var commandMap = {
+        'init': function (data) {
+            $me.trigger('init', data);
+        },
 
-            'openDocument': function(data) {
-                $me.trigger('opendocument', data);
-            },
+        'openDocument': function (data) {
+            $me.trigger('opendocument', data);
+        },
 
-            'openDocumentFromBinary': function(data) {
-                $me.trigger('opendocumentfrombinary', data);
-            },
+        'openDocumentFromBinary': function (data) {
+            $me.trigger('opendocumentfrombinary', data);
+        },
 
-            'showMessage': function(data) {
-                $me.trigger('showmessage', data);
-            },
+        'showMessage': function (data) {
+            $me.trigger('showmessage', data);
+        },
 
-            'applyEditRights': function(data) {
-                $me.trigger('applyeditrights', data);
-            },
+        'applyEditRights': function (data) {
+            $me.trigger('applyeditrights', data);
+        },
 
-            'processSaveResult': function(data) {
-                $me.trigger('processsaveresult', data);
-            },
+        'processSaveResult': function (data) {
+            $me.trigger('processsaveresult', data);
+        },
 
-            'processRightsChange': function(data) {
-                $me.trigger('processrightschange', data);
-            },
+        'processRightsChange': function (data) {
+            $me.trigger('processrightschange', data);
+        },
 
-            'refreshHistory': function(data) {
-                $me.trigger('refreshhistory', data);
-            },
+        'refreshHistory': function (data) {
+            $me.trigger('refreshhistory', data);
+        },
 
-            'setHistoryData': function(data) {
-                $me.trigger('sethistorydata', data);
-            },
+        'setHistoryData': function (data) {
+            $me.trigger('sethistorydata', data);
+        },
 
-            'setEmailAddresses': function(data) {
-                $me.trigger('setemailaddresses', data);
-            },
+        'setEmailAddresses': function (data) {
+            $me.trigger('setemailaddresses', data);
+        },
 
-            'setActionLink': function (data) {
-                $me.trigger('setactionlink', data.url);
-            },
+        'setActionLink': function (data) {
+            $me.trigger('setactionlink', data.url);
+        },
 
-            'processMailMerge': function(data) {
-                $me.trigger('processmailmerge', data);
-            },
+        'processMailMerge': function (data) {
+            $me.trigger('processmailmerge', data);
+        },
 
-            'downloadAs': function(data) {
-                $me.trigger('downloadas', data);
-            },
+        'downloadAs': function (data) {
+            $me.trigger('downloadas', data);
+        },
 
-            'processMouse': function(data) {
-                $me.trigger('processmouse', data);
-            },
+        'processMouse': function (data) {
+            $me.trigger('processmouse', data);
+        },
 
-            'internalCommand': function(data) {
-                $me.trigger('internalcommand', data);
-            },
+        'internalCommand': function (data) {
+            $me.trigger('internalcommand', data);
+        },
 
-            'resetFocus': function(data) {
-                $me.trigger('resetfocus', data);
-            },
+        'resetFocus': function (data) {
+            $me.trigger('resetfocus', data);
+        },
 
-            'setUsers': function(data) {
-                $me.trigger('setusers', data);
-            },
+        'setUsers': function (data) {
+            $me.trigger('setusers', data);
+        },
 
-            'showSharingSettings': function(data) {
-                $me.trigger('showsharingsettings', data);
-            },
+        'showSharingSettings': function (data) {
+            $me.trigger('showsharingsettings', data);
+        },
 
-            'setSharingSettings': function(data) {
-                $me.trigger('setsharingsettings', data);
-            },
+        'setSharingSettings': function (data) {
+            $me.trigger('setsharingsettings', data);
+        },
 
-            'insertImage': function(data) {
-                $me.trigger('insertimage', data);
-            },
+        'insertImage': function (data) {
+            $me.trigger('insertimage', data);
+        },
+        'insertSignature': function (data) {
+            $me.trigger('insertsignature', data);
+        },
+        'setMailMergeRecipients': function (data) {
+            $me.trigger('setmailmergerecipients', data);
+        },
 
-            'setMailMergeRecipients': function(data) {
-                $me.trigger('setmailmergerecipients', data);
-            },
+        'setRevisedFile': function (data) {
+            $me.trigger('setrevisedfile', data);
+        },
 
-            'setRevisedFile': function(data) {
-                $me.trigger('setrevisedfile', data);
-            },
+        'setFavorite': function (data) {
+            $me.trigger('setfavorite', data);
+        },
 
-            'setFavorite': function(data) {
-                $me.trigger('setfavorite', data);
-            },
+        'requestClose': function (data) {
+            $me.trigger('requestclose', data);
+        },
 
-            'requestClose': function(data) {
-                $me.trigger('requestclose', data);
-            },
+        'blurFocus': function (data) {
+            $me.trigger('blurfocus', data);
+        },
 
-            'blurFocus': function(data) {
-                $me.trigger('blurfocus', data);
-            },
+        'grabFocus': function (data) {
+            $me.trigger('grabfocus', data);
+        },
 
-            'grabFocus': function(data) {
-                $me.trigger('grabfocus', data);
-            },
+        'setReferenceData': function (data) {
+            $me.trigger('setreferencedata', data);
+        },
 
-            'setReferenceData': function(data) {
-                $me.trigger('setreferencedata', data);
-            },
+        'refreshFile': function (data) {
+            $me.trigger('refreshfile', data);
+        },
 
-            'refreshFile': function(data) {
-                $me.trigger('refreshfile', data);
-            },
+        'setRequestedDocument': function (data) {
+            $me.trigger('setrequesteddocument', data);
+        },
 
-            'setRequestedDocument': function(data) {
-                $me.trigger('setrequesteddocument', data);
-            },
+        'setRequestedSpreadsheet': function (data) {
+            $me.trigger('setrequestedspreadsheet', data);
+        },
 
-            'setRequestedSpreadsheet': function(data) {
-                $me.trigger('setrequestedspreadsheet', data);
-            },
+        'setReferenceSource': function (data) {
+            $me.trigger('setreferencesource', data);
+        },
 
-            'setReferenceSource': function(data) {
-                $me.trigger('setreferencesource', data);
-            },
+        'startFilling': function (data) {
+            $me.trigger('startfilling', data);
+        },
 
-            'startFilling': function(data) {
-                $me.trigger('startfilling', data);
-            },
+        'requestRoles': function (data) {
+            $me.trigger('requestroles', data);
+        }
+    };
 
-            'requestRoles': function(data) {
-                $me.trigger('requestroles', data);
+    var _postMessage = function (msg, buffer) {
+        // TODO: specify explicit origin
+        if (window.parent && window.JSON) {
+            msg.frameEditorId = window.frameEditorId;
+            buffer ? window.parent.postMessage(msg, "*", [buffer]) : window.parent.postMessage(window.JSON.stringify(msg), "*");
+        }
+    };
+
+    var _onMessage = function (msg) {
+        // TODO: check message origin
+        if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin === "null" && (window.parentOrigin === "file://" || window.location.origin === "file://"))) return;
+
+        var data = msg.data;
+        if (data && data.command === 'openDocumentFromBinary') {
+            handler = commandMap[data.command];
+            if (handler) {
+                handler.call(this, data.data);
             }
-        };
-
-        var _postMessage = function(msg, buffer) {
-            // TODO: specify explicit origin
-            if (window.parent && window.JSON) {
-                msg.frameEditorId = window.frameEditorId;
-                buffer ? window.parent.postMessage(msg, "*", [buffer]) : window.parent.postMessage(window.JSON.stringify(msg), "*");
-            }
-        };
-
-        var _onMessage = function(msg) {
-            // TODO: check message origin
-            if (msg.origin !== window.parentOrigin && msg.origin !== window.location.origin && !(msg.origin==="null" && (window.parentOrigin==="file://" || window.location.origin==="file://"))) return;
-
-            var data = msg.data;
-            if (data && data.command === 'openDocumentFromBinary') {
-                handler = commandMap[data.command];
-                if (handler) {
-                    handler.call(this, data.data);
-                }
-                return;
-            }
-
-            if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
-                return;
-            }
-
-            var cmd, handler;
-
-            try {
-                cmd = window.JSON.parse(data)
-            } catch(e) {
-                cmd = '';
-            }
-
-            if (cmd) {
-                handler = commandMap[cmd.command];
-                if (handler) {
-                    handler.call(this, cmd.data);
-                }
-            }
-        };
-
-        var fn = function(e) { _onMessage(e); };
-
-        if (window.attachEvent) {
-            window.attachEvent('onmessage', fn);
-        } else {
-            window.addEventListener('message', fn, false);
+            return;
         }
 
-        return {
-
-            appReady: function() {
-                _postMessage({ event: 'onAppReady' });
-            },
-
-            requestEditRights: function() {
-                _postMessage({ event: 'onRequestEditRights' });
-            },
-
-            requestHistory: function() {
-                _postMessage({ event: 'onRequestHistory' });
-            },
-
-            requestHistoryData: function(revision) {
-                _postMessage({
-                    event: 'onRequestHistoryData',
-                    data: revision
-                });
-            },
-
-            requestRestore: function(version, url, fileType) {
-                _postMessage({
-                    event: 'onRequestRestore',
-                    data: {
-                        version: version,
-                        url: url,
-                        fileType: fileType
-                    }
-                });
-            },
-
-            requestEmailAddresses: function() {
-                _postMessage({ event: 'onRequestEmailAddresses' });
-            },
-
-            requestStartMailMerge: function() {
-                _postMessage({event: 'onRequestStartMailMerge'});
-            },
-
-            requestHistoryClose: function(revision) {
-                _postMessage({event: 'onRequestHistoryClose'});
-            },
-
-            reportError: function(code, description) {
-                _postMessage({
-                    event: 'onError',
-                    data: {
-                        errorCode: code,
-                        errorDescription: description
-                    }
-                });
-            },
-
-            reportWarning: function(code, description) {
-                _postMessage({
-                    event: 'onWarning',
-                    data: {
-                        warningCode: code,
-                        warningDescription: description
-                    }
-                });
-            },
-
-            sendInfo: function(info) {
-                _postMessage({
-                    event: 'onInfo',
-                    data: info
-                });
-            },
-
-            setDocumentModified: function(modified) {
-                _postMessage({
-                    event: 'onDocumentStateChange',
-                    data: modified
-                });
-            },
-
-            internalMessage: function(type, data) {
-                _postMessage({
-                    event: 'onInternalMessage',
-                    data: {
-                        type: type,
-                        data: data
-                    }
-                });
-            },
-
-            updateVersion: function() {
-                _postMessage({ event: 'onOutdatedVersion' });
-            },
-
-            downloadAs: function(url, fileType) {
-                _postMessage({
-                    event: 'onDownloadAs',
-                    data: {
-                        url: url,
-                        fileType: fileType
-                    }
-                });
-            },
-
-            requestSaveAs: function(url, title, fileType) {
-                _postMessage({
-                    event: 'onRequestSaveAs',
-                    data: {
-                        url: url,
-                        title: title,
-                        fileType: fileType
-                    }
-                });
-            },
-
-            collaborativeChanges: function() {
-                _postMessage({event: 'onCollaborativeChanges'});
-            },
-
-            requestRename: function(title) {
-                _postMessage({event: 'onRequestRename', data: title});
-            },
-
-            metaChange: function(meta) {
-                _postMessage({event: 'onMetaChange', data: meta});
-            },
-
-            documentReady: function() {
-                _postMessage({ event: 'onDocumentReady' });
-            },
-
-            requestClose: function() {
-                _postMessage({event: 'onRequestClose'});
-            },
-
-            requestMakeActionLink: function (config) {
-                _postMessage({event:'onMakeActionLink', data: config});
-            },
-
-            requestUsers:  function (command, id) {
-                _postMessage({event:'onRequestUsers', data: {c: command, id: id}});
-            },
-
-            requestSendNotify:  function (emails) {
-                _postMessage({event:'onRequestSendNotify', data: emails});
-            },
-
-            requestInsertImage:  function (command) {
-                _postMessage({event:'onRequestInsertImage', data: {c: command}});
-            },
-
-            requestMailMergeRecipients:  function () {
-                _postMessage({event:'onRequestMailMergeRecipients'});
-            },
-
-            requestCompareFile:  function () {
-                _postMessage({event:'onRequestCompareFile'});
-            },
-
-            requestSharingSettings:  function () {
-                _postMessage({event:'onRequestSharingSettings'});
-            },
-
-            requestCreateNew:  function () {
-                _postMessage({event:'onRequestCreateNew'});
-            },
-
-            requestReferenceData:  function (data) {
-                _postMessage({event:'onRequestReferenceData', data: data});
-            },
-
-            requestOpen:  function (data) {
-                _postMessage({event:'onRequestOpen', data: data});
-            },
-
-            requestSelectDocument:  function (command) {
-                _postMessage({event:'onRequestSelectDocument', data: {c: command}});
-            },
-
-            requestSelectSpreadsheet:  function (command) {
-                _postMessage({event:'onRequestSelectSpreadsheet', data: {c: command}});
-            },
-
-            requestReferenceSource:  function () {
-                _postMessage({event:'onRequestReferenceSource'});
-            },
-
-            requestStartFilling:  function (roles) {
-                _postMessage({
-                    event:'onRequestStartFilling',
-                    data: roles
-                });
-            },
-
-            startFilling:  function () {
-                _postMessage({event:'onStartFilling'});
-            },
-
-            requestFillingStatus:  function (role) {
-                _postMessage({
-                    event:'onRequestFillingStatus',
-                    data: role
-                });
-            },
-
-            switchEditorType:  function (value, restart) {
-                _postMessage({event:'onSwitchEditorType', data: {type: value, restart: restart}});
-            },
-
-            pluginsReady: function() {
-                _postMessage({ event: 'onPluginsReady' });
-            },
-
-            requestRefreshFile: function() {
-                _postMessage({ event: 'onRequestRefreshFile' });
-            },
-
-            userActionRequired: function() {
-                _postMessage({ event: 'onUserActionRequired' });
-            },
-
-            saveDocument: function(data) {
-                data && _postMessage({
-                    event: 'onSaveDocument',
-                    data: data.buffer
-                }, data.buffer);
-            },
-
-            submitForm: function() {
-                _postMessage({event: 'onSubmit'});
-            },
-
-            on: function(event, handler){
-                var localHandler = function(event, data){
-                    handler.call(me, data)
-                };
-
-                $me.on(event, localHandler);
-            }
+        if (Object.prototype.toString.apply(data) !== '[object String]' || !window.JSON) {
+            return;
         }
 
-    })();
+        var cmd, handler;
+
+        try {
+            cmd = window.JSON.parse(data)
+        } catch (e) {
+            cmd = '';
+        }
+
+        if (cmd) {
+            handler = commandMap[cmd.command];
+            if (handler) {
+                handler.call(this, cmd.data);
+            }
+        }
+    };
+
+    var fn = function (e) { _onMessage(e); };
+
+    if (window.attachEvent) {
+        window.attachEvent('onmessage', fn);
+    } else {
+        window.addEventListener('message', fn, false);
+    }
+
+    return {
+
+        appReady: function () {
+            _postMessage({ event: 'onAppReady' });
+        },
+
+        requestEditRights: function () {
+            _postMessage({ event: 'onRequestEditRights' });
+        },
+
+        requestHistory: function () {
+            _postMessage({ event: 'onRequestHistory' });
+        },
+
+        requestHistoryData: function (revision) {
+            _postMessage({
+                event: 'onRequestHistoryData',
+                data: revision
+            });
+        },
+
+        requestRestore: function (version, url, fileType) {
+            _postMessage({
+                event: 'onRequestRestore',
+                data: {
+                    version: version,
+                    url: url,
+                    fileType: fileType
+                }
+            });
+        },
+
+        requestEmailAddresses: function () {
+            _postMessage({ event: 'onRequestEmailAddresses' });
+        },
+
+        requestStartMailMerge: function () {
+            _postMessage({ event: 'onRequestStartMailMerge' });
+        },
+
+        requestHistoryClose: function (revision) {
+            _postMessage({ event: 'onRequestHistoryClose' });
+        },
+
+        reportError: function (code, description) {
+            _postMessage({
+                event: 'onError',
+                data: {
+                    errorCode: code,
+                    errorDescription: description
+                }
+            });
+        },
+
+        reportWarning: function (code, description) {
+            _postMessage({
+                event: 'onWarning',
+                data: {
+                    warningCode: code,
+                    warningDescription: description
+                }
+            });
+        },
+
+        sendInfo: function (info) {
+            _postMessage({
+                event: 'onInfo',
+                data: info
+            });
+        },
+
+        setDocumentModified: function (modified) {
+            _postMessage({
+                event: 'onDocumentStateChange',
+                data: modified
+            });
+        },
+
+        internalMessage: function (type, data) {
+            _postMessage({
+                event: 'onInternalMessage',
+                data: {
+                    type: type,
+                    data: data
+                }
+            });
+        },
+
+        updateVersion: function () {
+            _postMessage({ event: 'onOutdatedVersion' });
+        },
+
+        downloadAs: function (url, fileType) {
+            _postMessage({
+                event: 'onDownloadAs',
+                data: {
+                    url: url,
+                    fileType: fileType
+                }
+            });
+        },
+
+        requestSaveAs: function (url, title, fileType) {
+            _postMessage({
+                event: 'onRequestSaveAs',
+                data: {
+                    url: url,
+                    title: title,
+                    fileType: fileType
+                }
+            });
+        },
+
+        collaborativeChanges: function () {
+            _postMessage({ event: 'onCollaborativeChanges' });
+        },
+
+        requestRename: function (title) {
+            _postMessage({ event: 'onRequestRename', data: title });
+        },
+
+        metaChange: function (meta) {
+            _postMessage({ event: 'onMetaChange', data: meta });
+        },
+
+        documentReady: function () {
+            _postMessage({ event: 'onDocumentReady' });
+        },
+
+        requestClose: function () {
+            _postMessage({ event: 'onRequestClose' });
+        },
+
+        requestMakeActionLink: function (config) {
+            _postMessage({ event: 'onMakeActionLink', data: config });
+        },
+
+        requestUsers: function (command, id) {
+            _postMessage({ event: 'onRequestUsers', data: { c: command, id: id } });
+        },
+
+        requestSendNotify: function (emails) {
+            _postMessage({ event: 'onRequestSendNotify', data: emails });
+        },
+
+        requestInsertImage: function (command) {
+            _postMessage({ event: 'onRequestInsertImage', data: { c: command } });
+        },
+
+        requestMailMergeRecipients: function () {
+            _postMessage({ event: 'onRequestMailMergeRecipients' });
+        },
+
+        requestCompareFile: function () {
+            _postMessage({ event: 'onRequestCompareFile' });
+        },
+
+        requestSharingSettings: function () {
+            _postMessage({ event: 'onRequestSharingSettings' });
+        },
+
+        requestCreateNew: function () {
+            _postMessage({ event: 'onRequestCreateNew' });
+        },
+
+        requestReferenceData: function (data) {
+            _postMessage({ event: 'onRequestReferenceData', data: data });
+        },
+
+        requestOpen: function (data) {
+            _postMessage({ event: 'onRequestOpen', data: data });
+        },
+
+        requestSelectDocument: function (command) {
+            _postMessage({ event: 'onRequestSelectDocument', data: { c: command } });
+        },
+
+        requestSelectSpreadsheet: function (command) {
+            _postMessage({ event: 'onRequestSelectSpreadsheet', data: { c: command } });
+        },
+
+        requestReferenceSource: function () {
+            _postMessage({ event: 'onRequestReferenceSource' });
+        },
+
+        requestStartFilling: function (roles) {
+            _postMessage({
+                event: 'onRequestStartFilling',
+                data: roles
+            });
+        },
+
+        startFilling: function () {
+            _postMessage({ event: 'onStartFilling' });
+        },
+
+        requestFillingStatus: function (role) {
+            _postMessage({
+                event: 'onRequestFillingStatus',
+                data: role
+            });
+        },
+
+        switchEditorType: function (value, restart) {
+            _postMessage({ event: 'onSwitchEditorType', data: { type: value, restart: restart } });
+        },
+
+        pluginsReady: function () {
+            _postMessage({ event: 'onPluginsReady' });
+        },
+
+        requestRefreshFile: function () {
+            _postMessage({ event: 'onRequestRefreshFile' });
+        },
+
+        userActionRequired: function () {
+            _postMessage({ event: 'onUserActionRequired' });
+        },
+
+        saveDocument: function (data) {
+            data && _postMessage({
+                event: 'onSaveDocument',
+                data: data.buffer
+            }, data.buffer);
+        },
+
+        submitForm: function () {
+            _postMessage({ event: 'onSubmit' });
+        },
+
+        on: function (event, handler) {
+            var localHandler = function (event, data) {
+                handler.call(me, data)
+            };
+
+            $me.on(event, localHandler);
+        }
+    }
+
+})();
