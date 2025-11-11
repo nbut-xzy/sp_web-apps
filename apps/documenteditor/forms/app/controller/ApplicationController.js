@@ -1357,7 +1357,7 @@ define([
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
         insertSignature: function (data) {
-            this.api.asc_InsertSignature(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
+            this.api.asc_InsertSignature(data.url, data.sId, data.token);
         },
         insertImageFromStorage: function (data) {
             if (data && data._urls && data.c == 'control') {
