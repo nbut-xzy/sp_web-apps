@@ -1572,7 +1572,7 @@ define([
                 this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_SetHighlightRequiredFields(true);
                 Common.Gateway.on('insertimage', _.bind(this.insertImage, this));
-                Common.Gateway.on('insertsignature', _.bind(this.insertSignature, this));
+                Common.Gateway.on('insertSignature', _.bind(this.insertSignature, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
 
