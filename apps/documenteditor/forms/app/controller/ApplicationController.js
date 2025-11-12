@@ -1357,6 +1357,7 @@ define([
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
         insertSignature: function (data) {
+            console.log("🚀 ~ data:1360", data)
             this.api.asc_InsertSignature(data.url, data.sId, data.token);
         },
         insertImageFromStorage: function (data) {
