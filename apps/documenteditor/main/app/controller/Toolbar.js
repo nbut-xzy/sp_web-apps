@@ -2008,6 +2008,7 @@ define([
         },
 
         insertImage: function (data) { // gateway
+            console.log("🚀 ~ data222222222222222:", data)
             if (data && (data.url || data.images)) {
                 data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
 
@@ -2023,9 +2024,9 @@ define([
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
         insertSignature: function (data) { // gateway
-            console.log("🚀 ~ data:2010", data)
-            console.log("🚀 ~ this.api:", this.api)
-            console.log("🚀 ~ Common:", Common)
+            console.log("🚀 ~ data:2010", data);
+            console.log("🚀 ~ this.api类型:", typeof this.api);
+            console.log("🚀 ~ this.api:", this.api);
 
             try {
                 // 检查必要参数
@@ -2040,24 +2041,57 @@ define([
                     return;
                 }
 
+                // 调试api对象的属性
+                console.log("🚀 ~ api对象属性:", Object.keys(this.api).slice(0, 20)); // 只显示前20个属性
+                console.log("🚀 ~ 原型链上的方法:", Object.getOwnPropertyNames(Object.getPrototypeOf(this.api)).slice(0, 20));
+
                 // 检查asc_InsertSignature方法是否存在
                 if (typeof this.api.asc_InsertSignature !== 'function') {
                     console.error("插入签名失败：asc_InsertSignature方法不存在");
-                    // 尝试使用备用方法或延迟调用
-                    console.log("尝试通过全局Asc对象直接调用...");
-                    if (window.Asc && window.Asc.asc_docs_api && window.Asc.asc_docs_api.prototype.asc_InsertSignature) {
-                        // 如果api对象是Asc.asc_docs_api的实例，我们可以直接调用方法
-                        var result = window.Asc.asc_docs_api.prototype.asc_InsertSignature.call(this.api, data.url, data.sId, data.token);
-                        console.log("全局调用结果:", result);
+
+                    // 检查是否存在小写版本的方法
+                    if (typeof this.api.asc_insertsignature === 'function') {
+                        console.log("发现小写版本方法asc_insertsignature，尝试调用...");
+                        try {
+                            var result = this.api.asc_insertsignature(data.url, data.sId, data.token);
+                            console.log("小写版本方法调用结果:", result);
+                            return;
+                        } catch (e) {
+                            console.error("调用小写版本方法时发生错误:", e);
+                        }
                     }
+
+                    // 尝试通过全局Asc对象直接调用
+                    console.log("尝试通过全局Asc对象直接调用...");
+                    console.log("🚀 ~ window.Asc:", window.Asc)
+                    if (window.Asc && window.Asc.asc_docs_api) {
+                        console.log("🚀 ~ Asc.asc_docs_api.prototype上的方法:",
+                            Object.getOwnPropertyNames(Asc.asc_docs_api.prototype).filter(name => name.startsWith('asc_Insert')));
+
+                        if (Asc.asc_docs_api.prototype.asc_InsertSignature) {
+                            console.log("在原型上找到asc_InsertSignature方法");
+                            try {
+                                var result = Asc.asc_docs_api.prototype.asc_InsertSignature.call(this.api, data.url, data.sId, data.token);
+                                console.log("全局调用结果:", result);
+                                return;
+                            } catch (e) {
+                                console.error("通过原型调用时发生错误:", e);
+                            }
+                        }
+                    }
+
+                    // 如果所有尝试都失败，显示更多调试信息
+                    console.error("无法调用签名插入方法，请检查SDK版本和初始化过程");
                     return;
                 }
 
                 // 正常调用方法
+                console.log("调用asc_InsertSignature方法");
                 var result = this.api.asc_InsertSignature(data.url, data.sId, data.token);
                 console.log("🚀 ~ 签名插入结果:", result);
             } catch (error) {
                 console.error("插入签名时发生错误:", error);
+                console.error("错误堆栈:", error.stack);
             }
         },
         onBtnInsertTextClick: function (btn, e) {

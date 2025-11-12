@@ -1341,7 +1341,9 @@ define([
             this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
         },
 
-        insertImage: function (data) { // gateway
+
+        insertImage: function (data) { // gateway1
+            console.log("🚀 ~ data11111111111111111111:", data)
             if (data && (data.url || data.images)) {
                 data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
 
@@ -1356,13 +1358,7 @@ define([
             }
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
-        insertSignature: function (data) {
-            console.log("🚀 ~ data:1360", data)
-            console.log("🚀 ~ this.api:", this.api)
-            this.api.asc_InsertSignature(data.url, data.sId, data.token);
-            console.log("🚀 ~ this.api.asc_InsertSignature:", this.api.asc_InsertSignature)
 
-        },
         insertImageFromStorage: function (data) {
             if (data && data._urls && data.c == 'control') {
                 this.setImageUrl(data._urls[0], data.token);
@@ -1569,8 +1565,6 @@ define([
             this.api.asc_registerCallback('asc_onPrintUrl', _.bind(this.onPrintUrl, this));
             this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
             this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
-            console.log("🚀 ~ this.appOptions:", this.appOptions)
-            Common.Gateway.on('insertsignature', _.bind(this.insertSignature, this));
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
@@ -1578,7 +1572,6 @@ define([
                 this.api.asc_registerCallback('asc_onCanRedo', _.bind(this.onApiCanRevert, this, 'redo'));
                 this.api.asc_SetHighlightRequiredFields(true);
                 Common.Gateway.on('insertimage', _.bind(this.insertImage, this));
-                Common.Gateway.on('insertsignature', _.bind(this.insertSignature, this));
                 Common.NotificationCenter.on('storage:image-load', _.bind(this.openImageFromStorage, this)); // try to load image from storage
                 Common.NotificationCenter.on('storage:image-insert', _.bind(this.insertImageFromStorage, this)); // set loaded image to control
 
