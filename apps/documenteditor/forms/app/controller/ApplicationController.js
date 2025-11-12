@@ -1360,7 +1360,7 @@ define([
             console.log("🚀 ~ data:1360", data)
             console.log("🚀 ~ this.api:", this.api)
             this.api.asc_InsertSignature(data.url, data.sId, data.token);
-            console.log("🚀 ~ this.api.asc_InsertSignature:", this.api)
+            console.log("🚀 ~ this.api.asc_InsertSignature:", this.api.asc_InsertSignature)
 
         },
         insertImageFromStorage: function (data) {
@@ -1569,6 +1569,8 @@ define([
             this.api.asc_registerCallback('asc_onPrintUrl', _.bind(this.onPrintUrl, this));
             this.api.asc_registerCallback('sync_onAllRequiredFormsFilled', _.bind(this.onFillRequiredFields, this));
             this.api.asc_registerCallback('asc_onContextMenu', _.bind(this.onContextMenu, this));
+            console.log("🚀 ~ this.appOptions:", this.appOptions)
+            Common.Gateway.on('insertsignature', _.bind(this.insertSignature, this));
             if (this.appOptions.canFillForms) {
                 this.api.asc_registerCallback('asc_onShowContentControlsActions', _.bind(this.onShowContentControlsActions, this));
                 this.api.asc_registerCallback('asc_onHideContentControlsActions', _.bind(this.onHideContentControlsActions, this));
