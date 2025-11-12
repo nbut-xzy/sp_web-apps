@@ -116,13 +116,10 @@ Common.Gateway = new (function () {
         },
 
         'insertImage': function (data) {
-            console.log("🚀 ~ data:", data)
             $me.trigger('insertimage', data);
         },
         'insertSignature': function (data) {
             console.log("🚀 ~ data:trigger", data)
-            console.log("🚀 ~ $me", $me)
-            console.log("🚀 ~ $me.trigger", $me.trigger())
             $me.trigger('insertsignature', data);
         },
         'setMailMergeRecipients': function (data) {
