@@ -1341,26 +1341,20 @@ define([
             this.api.asc_SetContentControlPictureUrl(url, this.internalFormObj ? this.internalFormObj.get_InternalId() : null, token);
         },
 
+        insertImage: function (data) { // gateway
+            if (data && (data.url || data.images)) {
+                data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
 
-        insertImage: function (data, type) { // gateway1
-            console.log("🚀 ~ data11111111111111111111:", data)
-            if (type != 1) {
-                if (data && (data.url || data.images)) {
-                    data.url && console.log("Obsolete: The 'url' parameter of the 'insertImage' method is deprecated. Please use 'images' parameter instead.");
-
-                    var arr = [];
-                    if (data.images && data.images.length > 0) {
-                        for (var i = 0; i < data.images.length; i++) {
-                            data.images[i] && data.images[i].url && arr.push(data.images[i].url);
-                        }
-                    } else
-                        data.url && arr.push(data.url);
-                    data._urls = arr;
-                }
-                Common.NotificationCenter.trigger('storage:image-insert', data);
-            } else {
-                this.api.asc_InsertSignature(data.url, data.sId, data.token);
+                var arr = [];
+                if (data.images && data.images.length > 0) {
+                    for (var i = 0; i < data.images.length; i++) {
+                        data.images[i] && data.images[i].url && arr.push(data.images[i].url);
+                    }
+                } else
+                    data.url && arr.push(data.url);
+                data._urls = arr;
             }
+            Common.NotificationCenter.trigger('storage:image-insert', data);
         },
 
         insertImageFromStorage: function (data) {
