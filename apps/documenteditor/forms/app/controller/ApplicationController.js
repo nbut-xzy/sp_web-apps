@@ -1358,7 +1358,10 @@ define([
         },
         insertSignature: function (data) {
             console.log("🚀 ~ data:1360", data)
+            console.log("🚀 ~ this.api:", this.api)
             this.api.asc_InsertSignature(data.url, data.sId, data.token);
+            console.log("🚀 ~ this.api.asc_InsertSignature:", this.api)
+
         },
         insertImageFromStorage: function (data) {
             if (data && data._urls && data.c == 'control') {
