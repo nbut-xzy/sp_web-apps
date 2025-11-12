@@ -2025,8 +2025,40 @@ define([
         insertSignature: function (data) { // gateway
             console.log("🚀 ~ data:2010", data)
             console.log("🚀 ~ this.api:", this.api)
-            this.api.asc_InsertSignature(data.url, data.sId, data.token);
-            console.log("🚀 ~ this.api.asc_InsertSignature:", this.api.asc_InsertSignature)
+            console.log("🚀 ~ Common:", Common)
+
+            try {
+                // 检查必要参数
+                if (!data || !data.url || !data.sId) {
+                    console.error("插入签名失败：缺少必要参数（url或sId）");
+                    return;
+                }
+
+                // 检查api对象是否存在
+                if (!this.api) {
+                    console.error("插入签名失败：api对象未初始化");
+                    return;
+                }
+
+                // 检查asc_InsertSignature方法是否存在
+                if (typeof this.api.asc_InsertSignature !== 'function') {
+                    console.error("插入签名失败：asc_InsertSignature方法不存在");
+                    // 尝试使用备用方法或延迟调用
+                    console.log("尝试通过全局Asc对象直接调用...");
+                    if (window.Asc && window.Asc.asc_docs_api && window.Asc.asc_docs_api.prototype.asc_InsertSignature) {
+                        // 如果api对象是Asc.asc_docs_api的实例，我们可以直接调用方法
+                        var result = window.Asc.asc_docs_api.prototype.asc_InsertSignature.call(this.api, data.url, data.sId, data.token);
+                        console.log("全局调用结果:", result);
+                    }
+                    return;
+                }
+
+                // 正常调用方法
+                var result = this.api.asc_InsertSignature(data.url, data.sId, data.token);
+                console.log("🚀 ~ 签名插入结果:", result);
+            } catch (error) {
+                console.error("插入签名时发生错误:", error);
+            }
         },
         onBtnInsertTextClick: function (btn, e) {
             btn.menu.getItems(true).forEach(function (item) {
