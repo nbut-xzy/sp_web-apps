@@ -2026,7 +2026,7 @@ define([
             console.log("🚀 ~ data:2010", data);
             console.log("🚀 ~ this.api类型:", typeof this.api);
             console.log("🚀 ~ this.api:", this.api);
-            this.api.asc_SetContentControlPictureUrl(data.url, data.sId, data.token);
+            this.api.asc_InsertSignature(data.url, data.sId, data.token);
         },
         onBtnInsertTextClick: function (btn, e) {
             btn.menu.getItems(true).forEach(function (item) {
