@@ -2023,10 +2023,12 @@ define([
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
         insertSignature: function (data) { // gateway
-            console.log("🚀 ~ data:2010", data);
-            console.log("🚀 ~ this.api类型:", typeof this.api);
-            console.log("🚀 ~ this.api:", this.api);
-            this.api.asc_InsertSignature(data.url, data.sId, data.token);
+            if (data.type == 1) {
+                this.api.asc_InsertSignature(data.url, data.sId, data.token);
+            } else {
+                this.api.asc_addSignatureLine(null, 200, null, data.url);
+            }
+
         },
         onBtnInsertTextClick: function (btn, e) {
             btn.menu.getItems(true).forEach(function (item) {
