@@ -2023,7 +2023,7 @@ define([
             Common.NotificationCenter.trigger('storage:image-insert', data);
         },
         insertSignature: function (data) { // gateway
-            this.api.asc_InsertSignature(data.url, data.sId, data.token);
+            this.api.asc_InsertSignature(data.url, data.sId, data.width, data.height, data.type, data.token);
         },
         onBtnInsertTextClick: function (btn, e) {
             btn.menu.getItems(true).forEach(function (item) {
