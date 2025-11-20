@@ -777,7 +777,6 @@
             });
         };
         var _insertSignature = function (data) {
-            console.log("🚀 ~ _insertSignature ~ data:", data)
             _sendCommand({
                 command: 'insertSignature',
                 data: data
