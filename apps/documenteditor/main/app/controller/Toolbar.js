@@ -295,6 +295,7 @@ define([
             this.onBtnChangeState('redo:disabled', toolbar.btnRedo, toolbar.btnRedo.isDisabled());
             Common.Gateway.on('insertimage', _.bind(this.insertImage, this));
             Common.Gateway.on('insertsignature', _.bind(this.insertSignature, this));
+            Common.Gateway.on('inserttimestamp', _.bind(this.insertTimestamp, this));
         },
 
         attachUIEvents: function (toolbar) {
@@ -421,6 +422,7 @@ define([
             toolbar.btnHyphenation.menu.on('show:after', _.bind(this.onHyphenationShow, this));
             Common.Gateway.on('insertimage', _.bind(this.insertImage, this));
             Common.Gateway.on('insertsignature', _.bind(this.insertSignature, this));
+            Common.Gateway.on('inserttimestamp', _.bind(this.insertTimestamp, this));
             Common.Gateway.on('setmailmergerecipients', _.bind(this.setMailMergeRecipients, this));
             Common.Gateway.on('setrequestedspreadsheet', _.bind(this.setRequestedSpreadsheet, this));
             Common.NotificationCenter.on('storage:spreadsheet-load', _.bind(this.openSpreadsheetFromStorage, this));
@@ -2024,6 +2026,9 @@ define([
         },
         insertSignature: function (data) { // gateway
             this.api.asc_InsertSignature(data.url, data.sId, data.width, data.height, data.type, data.token, data.callback);
+        },
+        insertTimestamp: function (data) { // gateway
+            this.api.asc_InsertTimestamp(data.text, data.sId, data.type);
         },
         onBtnInsertTextClick: function (btn, e) {
             btn.menu.getItems(true).forEach(function (item) {

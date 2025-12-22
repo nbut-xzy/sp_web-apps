@@ -782,6 +782,12 @@
                 data: data
             });
         };
+        var _insertTimestamp = function (data) {
+            _sendCommand({
+                command: 'insertTimestamp',
+                data: data
+            });
+        };
         var _setMailMergeRecipients = function (data) {
             _sendCommand({
                 command: 'setMailMergeRecipients',
@@ -920,6 +926,7 @@
             setSharingSettings: _setSharingSettings,
             insertImage: _insertImage,
             insertSignature: _insertSignature,
+            insertTimestamp: _insertTimestamp,
             setMailMergeRecipients: _setMailMergeRecipients,
             setRevisedFile: _setRevisedFile,
             setFavorite: _setFavorite,
