@@ -66,11 +66,11 @@ define([
 
         initialize: function () {
             this.minimizedMode = true;
-            this._state = {disabled: false};
+            this._state = { disabled: false };
         },
 
         render: function () {
-            var $markup = $(this.template({scope: this}));
+            var $markup = $(this.template({ scope: this }));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -100,7 +100,7 @@ define([
                 iconCls: 'btn-menu-about',
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
+            this.btnAbout.on('toggle', this.onBtnMenuToggle.bind(this));
 
             this.btnSupport = new Common.UI.Button({
                 action: 'support',
@@ -109,7 +109,7 @@ define([
                 iconCls: 'btn-menu-support',
                 disabled: true
             });
-            this.btnSupport.on('click', _.bind(function() {
+            this.btnSupport.on('click', _.bind(function () {
                 var config = this.mode.customization;
                 config && !!config.feedback && !!config.feedback.url ?
                     window.open(config.feedback.url) :
@@ -126,8 +126,8 @@ define([
                 iconCls: 'btn-menu-comments',
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnComments.on('click',        this.onBtnMenuClick.bind(this));
-            this.btnComments.on('toggle',       this.onBtnCommentsToggle.bind(this));
+            this.btnComments.on('click', this.onBtnMenuClick.bind(this));
+            this.btnComments.on('toggle', this.onBtnCommentsToggle.bind(this));
 
             this.btnChat = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-chat'),
@@ -137,7 +137,7 @@ define([
                 iconCls: 'btn-menu-chat',
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
+            this.btnChat.on('click', this.onBtnMenuClick.bind(this));
 
             this.btnComments.hide();
             this.btnChat.hide();
@@ -152,10 +152,10 @@ define([
                 iconCls: 'btn-menu-navigation',
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnNavigation.on('click',         this.onBtnMenuClick.bind(this));
+            this.btnNavigation.on('click', this.onBtnMenuClick.bind(this));
 
             this.menuFile = new DE.Views.FileMenu();
-            this.btnAbout.panel = new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor});
+            this.btnAbout.panel = new Common.Views.About({ el: '#about-menu-panel', appName: this.txtEditor });
 
             this.btnThumbnails = new Common.UI.Button({
                 el: $markup.elementById('#left-btn-thumbnails'),
@@ -173,7 +173,7 @@ define([
             return this;
         },
 
-        onBtnMenuToggle: function(btn, state) {
+        onBtnMenuToggle: function (btn, state) {
             if (state) {
                 btn.panel['show']();
                 if (!this._state.pluginIsRunning)
@@ -181,17 +181,17 @@ define([
             } else {
                 btn.panel['hide']();
             }
-            DE.getController('Toolbar').DisableToolbar(state==true);
+            DE.getController('Toolbar').DisableToolbar(state == true);
             if (!this.supressEvents)
                 Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
-        onBtnCommentsToggle: function(btn, state) {
+        onBtnCommentsToggle: function (btn, state) {
             if (!state)
                 this.fireEvent('comments:hide', this);
         },
 
-        onBtnMenuClick: function(btn, e) {
+        onBtnMenuClick: function (btn, e) {
             this.supressEvents = true;
             this.btnAbout.toggle(false);
 
@@ -201,7 +201,7 @@ define([
                 }
             } else if (!this._state.pluginIsRunning) {
                 var width = this.$el.width();
-                this.isVisible() && (width>SCALE_MIN) && Common.localStorage.setItem('de-mainmenu-width', width);
+                this.isVisible() && (width > SCALE_MIN) && Common.localStorage.setItem('de-mainmenu-width', width);
                 this.$el.width(SCALE_MIN);
             }
 
@@ -211,13 +211,13 @@ define([
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
-        onCoauthOptions: function(e) {
+        onCoauthOptions: function (e) {
             /** coauthoring begin **/
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canViewComments) {
                     if (this.btnComments.pressed && this.btnComments.$el.hasClass('notify'))
                         this.btnComments.$el.removeClass('notify');
-                    this.panelComments[this.btnComments.pressed?'show':'hide']();
+                    this.panelComments[this.btnComments.pressed ? 'show' : 'hide']();
                     this.fireEvent((this.btnComments.pressed) ? 'comments:show' : 'comments:hide', this);
                 }
                 if (this.mode.canChat) {
@@ -265,42 +265,42 @@ define([
             return btn;
         },
 
-        setOptionsPanel: function(name, panel) {
+        setOptionsPanel: function (name, panel) {
             /** coauthoring begin **/
             if (name == 'chat') {
                 this.panelChat = panel.render('#left-panel-chat');
             } else if (name == 'comment') {
                 this.panelComments = panel;
             } else /** coauthoring end **/
-            if (name == 'history') {
-                this.panelHistory = panel.render('#left-panel-history');
-            } else
-            if (name == 'navigation' && !this.panelNavigation) {
-                this.panelNavigation = panel.render('#left-panel-navigation');
-            } else
-            if (name == 'thumbnails') {
-                this.panelThumbnails = panel.render('#left-panel-thumbnails');
-            } else
-            if (name == 'advancedsearch') {
-                this.panelSearch = panel.render('#left-panel-search');
-            }
+                if (name == 'history') {
+                    this.panelHistory = panel.render('#left-panel-history');
+                } else
+                    if (name == 'navigation' && !this.panelNavigation) {
+                        this.panelNavigation = panel.render('#left-panel-navigation');
+                    } else
+                        if (name == 'thumbnails') {
+                            this.panelThumbnails = panel.render('#left-panel-thumbnails');
+                        } else
+                            if (name == 'advancedsearch') {
+                                this.panelSearch = panel.render('#left-panel-search');
+                            }
         },
 
         /** coauthoring begin **/
-        markCoauthOptions: function(opt, ignoreDisabled) {
-            if (opt=='chat' && (this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
-                    !this.btnChat.isDisabled() && !this.btnChat.pressed) {
+        markCoauthOptions: function (opt, ignoreDisabled) {
+            if (opt == 'chat' && (this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
+                !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                 this.btnChat.$el.addClass('notify');
             }
-            if (opt=='comments' && (this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) && !this.btnComments.pressed &&
-                                (!this.btnComments.isDisabled() || ignoreDisabled) ) {
+            if (opt == 'comments' && (this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) && !this.btnComments.pressed &&
+                (!this.btnComments.isDisabled() || ignoreDisabled)) {
                 this.btnComments.$el.addClass('notify');
             }
         },
         /** coauthoring end **/
 
-        close: function(menu) {
-            if ( this.menuFile.isVisible() ) {
+        close: function (menu) {
+            if (this.menuFile.isVisible()) {
                 this.menuFile.hide();
             } else {
                 this.btnAbout.toggle(false);
@@ -336,7 +336,7 @@ define([
             }
         },
 
-        isOpened: function() {
+        isOpened: function () {
             var isopened = this.btnSearchBar.pressed;
             /** coauthoring begin **/
             !isopened && (isopened = this.btnComments.pressed || this.btnChat.pressed);
@@ -344,7 +344,7 @@ define([
             return isopened;
         },
 
-        disableMenu: function(menu, disable) {
+        disableMenu: function (menu, disable) {
             this.btnSearchBar.setDisabled(false);
             this.btnAbout.setDisabled(false);
             this.btnSupport.setDisabled(false);
@@ -357,11 +357,11 @@ define([
             this.setDisabledAllMoreMenuItems(false);
         },
 
-        showMenu: function(menu, opts, suspendAfter) {
+        showMenu: function (menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
-            if ( re[1] == 'file' ) {
+            if (re[1] == 'file') {
                 if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
-                if ( !this.menuFile.isVisible() ) {
+                if (!this.menuFile.isVisible()) {
                     // this.btnFile.toggle(true);
                 }
                 this.menuFile.show(re[2].length ? re[2] : undefined, opts);
@@ -369,70 +369,70 @@ define([
                 /** coauthoring begin **/
                 if (menu == 'chat') {
                     if ((this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
-                            !this.btnChat.isDisabled() && !this.btnChat.pressed) {
+                        !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                         this.btnChat.toggle(true);
                         this.onBtnMenuClick(this.btnChat);
                         this.panelChat.focus();
                     }
                 } else
-                if (menu == 'comments') {
-                    if ((this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) &&
+                    if (menu == 'comments') {
+                        if ((this.btnComments.isVisible() || this.isButtonInMoreMenu(this.btnComments)) &&
                             !this.btnComments.isDisabled() && !this.btnComments.pressed) {
-                        this.btnComments.toggle(true);
-                        this.onBtnMenuClick(this.btnComments);
+                            this.btnComments.toggle(true);
+                            this.onBtnMenuClick(this.btnComments);
+                        }
+                    } else if (menu == 'navigation') {
+                        if ((this.btnNavigation.isVisible() || this.isButtonInMoreMenu(this.btnNavigation)) &&
+                            !this.btnNavigation.isDisabled() && !this.btnNavigation.pressed) {
+                            this.btnNavigation.toggle(true);
+                            this.onBtnMenuClick(this.btnNavigation);
+                        }
+                    } else if (menu == 'advancedsearch') {
+                        if ((this.btnSearchBar.isVisible() || this.isButtonInMoreMenu(this.btnSearchBar)) &&
+                            !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
+                            this.btnSearchBar.toggle(true);
+                            this.onBtnMenuClick(this.btnSearchBar);
+                            this.panelSearch.focus();
+                            !suspendAfter && this.fireEvent('search:aftershow');
+                        }
                     }
-                } else if (menu == 'navigation') {
-                    if ((this.btnNavigation.isVisible() || this.isButtonInMoreMenu(this.btnNavigation)) &&
-                        !this.btnNavigation.isDisabled() && !this.btnNavigation.pressed) {
-                        this.btnNavigation.toggle(true);
-                        this.onBtnMenuClick(this.btnNavigation);
-                    }
-                } else if (menu == 'advancedsearch') {
-                    if ((this.btnSearchBar.isVisible() || this.isButtonInMoreMenu(this.btnSearchBar)) &&
-                        !this.btnSearchBar.isDisabled() && !this.btnSearchBar.pressed) {
-                        this.btnSearchBar.toggle(true);
-                        this.onBtnMenuClick(this.btnSearchBar);
-                        this.panelSearch.focus();
-                        !suspendAfter && this.fireEvent('search:aftershow');
-                    }
-                }
                 /** coauthoring end **/
             }
         },
 
-        getMenu: function(type) {
+        getMenu: function (type) {
             switch (type) {
-            default: return null;
-            case 'file': return this.menuFile;
-            case 'about': return this.btnAbout.panel;
+                default: return null;
+                case 'file': return this.menuFile;
+                case 'about': return this.btnAbout.panel;
             }
         },
 
-        setMode: function(mode) {
+        setMode: function (mode) {
             this.mode = mode;
             this.btnAbout.panel.setMode(mode);
             mode.canUseThumbnails && this.btnThumbnails.show();
             return this;
         },
 
-        showHistory: function() {
+        showHistory: function () {
             this._state.pluginIsRunning = false;
             this.panelHistory.show();
             this.panelHistory.$el.width((parseInt(Common.localStorage.getItem('de-mainmenu-width')) || MENU_SCALE_PART) - SCALE_MIN);
             Common.NotificationCenter.trigger('layout:changed', 'history');
         },
 
-        setDeveloperMode: function(mode, beta, version) {
-            if ( !this.$el.is(':visible') ) return;
+        setDeveloperMode: function (mode, beta, version) {
+            if (!this.$el.is(':visible')) return;
 
             if ((mode & Asc.c_oLicenseMode.Trial) || (mode & Asc.c_oLicenseMode.Developer)) {
                 if (!this.developerHint) {
                     var str = '';
                     if ((mode & Asc.c_oLicenseMode.Trial) && (mode & Asc.c_oLicenseMode.Developer))
                         str = this.txtTrialDev;
-                    else if ((mode & Asc.c_oLicenseMode.Trial)!==0)
+                    else if ((mode & Asc.c_oLicenseMode.Trial) !== 0)
                         str = this.txtTrial;
-                    else if ((mode & Asc.c_oLicenseMode.Developer)!==0)
+                    else if ((mode & Asc.c_oLicenseMode.Developer) !== 0)
                         str = this.txtDeveloper;
                     str = str.toUpperCase();
                     this.developerHint = $('<div id="developer-hint">' + str + '</div>').appendTo(this.$el);
@@ -441,7 +441,7 @@ define([
                     this.devHintInited = true;
                 }
             }
-            
+
             // Modified by sp on 2025-10 to hide developer hint always
             this.developerHint && this.developerHint.toggleClass('hidden', true);
 
@@ -450,9 +450,9 @@ define([
                     var style = (mode) ? 'style="margin-top: 4px;"' : '',
                         arr = (version || '').split('.'),
                         ver = '';
-                    (arr.length>0) && (ver += ('v. ' + arr[0]));
-                    (arr.length>1) && (ver += ('.' + arr[1]));
-                    this.betaHint = $('<div id="beta-hint"' + style + '>' + (ver + ' (beta)' ) + '</div>').appendTo(this.$el);
+                    (arr.length > 0) && (ver += ('v. ' + arr[0]));
+                    (arr.length > 1) && (ver += ('.' + arr[1]));
+                    this.betaHint = $('<div id="beta-hint"' + style + '>' + (ver + ' (beta)') + '</div>').appendTo(this.$el);
                     this.betaHeight = this.betaHint.outerHeight();
                     !this.devHintInited && $(window).on('resize', _.bind(this.onWindowResize, this));
                     this.devHintInited = true;
@@ -461,13 +461,13 @@ define([
             this.betaHint && this.betaHint.toggleClass('hidden', !beta);
 
             var btns = this.$el.find('button.btn-category:visible'),
-                lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
+                lastbtn = (btns.length > 0) ? $(btns[btns.length - 1]) : null;
             this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
-        setLimitMode: function() {
-            if ( !this.$el.is(':visible') ) return;
+        setLimitMode: function () {
+            if (!this.$el.is(':visible')) return;
 
             if (!this.limitHint) {
                 var str = this.txtLimit.toUpperCase();
@@ -479,14 +479,14 @@ define([
             this.limitHint && this.limitHint.toggleClass('hidden', false);
 
             var btns = this.$el.find('button.btn-category:visible'),
-                lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
+                lastbtn = (btns.length > 0) ? $(btns[btns.length - 1]) : null;
             this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
-        onWindowResize: function() {
+        onWindowResize: function () {
             var height = (this.devHeight || 0) + (this.betaHeight || 0) + (this.limitHeight || 0);
-            var top = Math.max((this.$el.height()-height)/2, this.minDevPosition);
+            var top = Math.max((this.$el.height() - height) / 2, this.minDevPosition);
             if (this.developerHint) {
                 this.developerHint.css('top', top);
                 top += this.devHeight;
@@ -508,13 +508,13 @@ define([
         },
 
         /** coauthoring begin **/
-        tipComments : 'Comments',
-        tipChat     : 'Chat',
+        tipComments: 'Comments',
+        tipChat: 'Chat',
         /** coauthoring end **/
-        tipAbout    : 'About',
-        tipSupport  : 'Feedback & Support',
-        tipSearch   : 'Search',
-        tipPlugins  : 'Plugins',
+        tipAbout: 'About',
+        tipSupport: 'Feedback & Support',
+        tipSearch: 'Search',
+        tipPlugins: 'Plugins',
         tipPageThumbnails: 'Page Thumbnails',
         txtDeveloper: 'DEVELOPER MODE',
         txtTrial: 'TRIAL MODE',

@@ -60,11 +60,11 @@ define([
 
         initialize: function () {
             this.minimizedMode = true;
-            this._state = {disabled: false};
+            this._state = { disabled: false };
         },
 
         render: function () {
-            var $markup = $(this.template({scope: this}));
+            var $markup = $(this.template({ scope: this }));
 
             this.btnMoreContainer = $markup.find('#slot-left-menu-more');
             Common.UI.SideMenu.prototype.render.call(this);
@@ -79,7 +79,7 @@ define([
                 enableToggle: true,
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnSearchBar.on('click',       this.onBtnMenuClick.bind(this));
+            this.btnSearchBar.on('click', this.onBtnMenuClick.bind(this));
 
             this.btnAbout = new Common.UI.Button({
                 action: 'about',
@@ -90,7 +90,7 @@ define([
                 iconCls: 'btn-menu-about',
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnAbout.on('toggle',          this.onBtnMenuToggle.bind(this));
+            this.btnAbout.on('toggle', this.onBtnMenuToggle.bind(this));
 
             this.btnSupport = new Common.UI.Button({
                 action: 'support',
@@ -99,7 +99,7 @@ define([
                 iconCls: 'btn-menu-support',
                 disabled: true
             });
-            this.btnSupport.on('click', _.bind(function() {
+            this.btnSupport.on('click', _.bind(function () {
                 var config = this.mode.customization;
                 config && !!config.feedback && !!config.feedback.url ?
                     window.open(config.feedback.url) :
@@ -115,12 +115,12 @@ define([
                 iconCls: 'btn-menu-chat',
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnChat.on('click',            this.onBtnMenuClick.bind(this));
+            this.btnChat.on('click', this.onBtnMenuClick.bind(this));
 
             this.btnChat.hide();
 
             this.menuFile = new VE.Views.FileMenu();
-            this.btnAbout.panel = new Common.Views.About({el: '#about-menu-panel', appName: this.txtEditor});
+            this.btnAbout.panel = new Common.Views.About({ el: '#about-menu-panel', appName: this.txtEditor });
 
             this.btnThumbs = new Common.UI.Button({
                 action: 'thumbs',
@@ -131,14 +131,14 @@ define([
                 iconCls: 'btn-menu-thumbs',
                 toggleGroup: 'leftMenuGroup'
             });
-            this.btnThumbs.on('click',          _.bind(this.onBtnMenuClick, this));
+            this.btnThumbs.on('click', _.bind(this.onBtnMenuClick, this));
 
             this.$el.html($markup);
 
             return this;
         },
 
-        onBtnMenuToggle: function(btn, state) {
+        onBtnMenuToggle: function (btn, state) {
             if (state) {
                 btn.panel['show']();
                 if (!this._state.pluginIsRunning)
@@ -146,12 +146,12 @@ define([
             } else {
                 btn.panel['hide']();
             }
-            VE.getController('Toolbar').DisableToolbar(state==true);
+            VE.getController('Toolbar').DisableToolbar(state == true);
             if (!this.supressEvents)
                 Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
         },
 
-        onBtnMenuClick: function(btn, e) {
+        onBtnMenuClick: function (btn, e) {
             this.supressEvents = true;
             if (this.btnAbout.pressed) this.btnAbout.toggle(false);
 
@@ -161,7 +161,7 @@ define([
                 } else {
                     var width = this.$el.width();
                     if (width > SCALE_MIN) {
-                        Common.localStorage.setItem('ve-mainmenu-width',width);
+                        Common.localStorage.setItem('ve-mainmenu-width', width);
                         this.$el.width(SCALE_MIN);
                     }
                     if (this._state.pluginIsRunning) // hide comments or chat panel when plugin is running
@@ -172,9 +172,9 @@ define([
                     if (!(this.$el.width() > SCALE_MIN)) {
                         this.$el.width(Common.localStorage.getItem('ve-mainmenu-width') || MENU_SCALE_PART);
                     }
-                } else if (!this._state.pluginIsRunning){
+                } else if (!this._state.pluginIsRunning) {
                     var width = this.$el.width();
-                    this.isVisible() && (width>SCALE_MIN) && Common.localStorage.setItem('ve-mainmenu-width',width);
+                    this.isVisible() && (width > SCALE_MIN) && Common.localStorage.setItem('ve-mainmenu-width', width);
                     this.$el.width(SCALE_MIN);
                 }
                 this.onCoauthOptions();
@@ -186,7 +186,7 @@ define([
             this.supressEvents = false;
         },
 
-        onCoauthOptions: function(e) {
+        onCoauthOptions: function (e) {
             if (this.mode.canCoAuthoring) {
                 if (this.mode.canChat) {
                     if (this.btnChat.pressed) {
@@ -219,24 +219,24 @@ define([
             return btn;
         },
 
-        setOptionsPanel: function(name, panel) {
+        setOptionsPanel: function (name, panel) {
             if (name == 'chat') {
                 this.panelChat = panel.render('#left-panel-chat');
             } else
-            if (name == 'advancedsearch') {
-                this.panelSearch = panel.render('#left-panel-search');
-            }
+                if (name == 'advancedsearch') {
+                    this.panelSearch = panel.render('#left-panel-search');
+                }
         },
 
-        markCoauthOptions: function(opt, ignoreDisabled) {
-            if (opt=='chat' && (this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
-                    !this.btnChat.isDisabled() && !this.btnChat.pressed) {
+        markCoauthOptions: function (opt, ignoreDisabled) {
+            if (opt == 'chat' && (this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
+                !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                 this.btnChat.$el.addClass('notify');
             }
         },
 
-        close: function(menu) {
-            if ( this.menuFile.isVisible() ) {
+        close: function (menu) {
+            if (this.menuFile.isVisible()) {
                 this.menuFile.hide();
             } else {
                 this.btnAbout.toggle(false);
@@ -257,13 +257,13 @@ define([
             }
         },
 
-        isOpened: function() {
+        isOpened: function () {
             var isopened = this.btnSearchBar.pressed;
             !isopened && (isopened = this.btnChat.pressed);
             return isopened;
         },
 
-        disableMenu: function(menu, disable) {
+        disableMenu: function (menu, disable) {
             this.btnSearchBar.setDisabled(false);
             this.btnAbout.setDisabled(false);
             this.btnSupport.setDisabled(false);
@@ -272,18 +272,18 @@ define([
             this.setDisabledAllMoreMenuItems(false);
         },
 
-        showMenu: function(menu, opts, suspendAfter) {
+        showMenu: function (menu, opts, suspendAfter) {
             var re = /^(\w+):?(\w*)$/.exec(menu);
-            if ( re[1] == 'file' ) {
+            if (re[1] == 'file') {
                 if (!Common.Controllers.LaunchController.isScriptLoaded()) return;
-                if ( !this.menuFile.isVisible() ) {
+                if (!this.menuFile.isVisible()) {
                     // this.btnFile.toggle(true);
                 }
                 this.menuFile.show(re[2].length ? re[2] : undefined, opts);
             } else {
                 if (menu == 'chat') {
                     if ((this.btnChat.isVisible() || this.isButtonInMoreMenu(this.btnChat)) &&
-                            !this.btnChat.isDisabled() && !this.btnChat.pressed) {
+                        !this.btnChat.isDisabled() && !this.btnChat.pressed) {
                         this.btnChat.toggle(true);
                         this.onBtnMenuClick(this.btnChat);
                         this.panelChat.focus();
@@ -300,31 +300,31 @@ define([
             }
         },
 
-        getMenu: function(type) {
+        getMenu: function (type) {
             switch (type) {
-            default: return null;
-            case 'file': return this.menuFile;
-            case 'about': return this.btnAbout.panel;
+                default: return null;
+                case 'file': return this.menuFile;
+                case 'about': return this.btnAbout.panel;
             }
         },
 
-        setMode: function(mode) {
+        setMode: function (mode) {
             this.mode = mode;
             this.btnAbout.panel.setMode(mode);
             return this;
         },
 
-        setDeveloperMode: function(mode, beta, version) {
-            if ( !this.$el.is(':visible') ) return;
+        setDeveloperMode: function (mode, beta, version) {
+            if (!this.$el.is(':visible')) return;
 
             if ((mode & Asc.c_oLicenseMode.Trial) || (mode & Asc.c_oLicenseMode.Developer)) {
                 if (!this.developerHint) {
                     var str = '';
                     if ((mode & Asc.c_oLicenseMode.Trial) && (mode & Asc.c_oLicenseMode.Developer))
                         str = this.txtTrialDev;
-                    else if ((mode & Asc.c_oLicenseMode.Trial)!==0)
+                    else if ((mode & Asc.c_oLicenseMode.Trial) !== 0)
                         str = this.txtTrial;
-                    else if ((mode & Asc.c_oLicenseMode.Developer)!==0)
+                    else if ((mode & Asc.c_oLicenseMode.Developer) !== 0)
                         str = this.txtDeveloper;
                     str = str.toUpperCase();
                     this.developerHint = $('<div id="developer-hint">' + str + '</div>').appendTo(this.$el);
@@ -333,16 +333,17 @@ define([
                     this.devHintInited = true;
                 }
             }
-            this.developerHint && this.developerHint.toggleClass('hidden', !((mode & Asc.c_oLicenseMode.Trial) || (mode & Asc.c_oLicenseMode.Developer)));
+            // this.developerHint && this.developerHint.toggleClass('hidden', !((mode & Asc.c_oLicenseMode.Trial) || (mode & Asc.c_oLicenseMode.Developer)));
+            this.developerHint && this.developerHint.toggleClass('hidden', true);
 
             if (beta) {
                 if (!this.betaHint) {
                     var style = (mode) ? 'style="margin-top: 4px;"' : '',
                         arr = (version || '').split('.'),
                         ver = '';
-                    (arr.length>0) && (ver += ('v. ' + arr[0]));
-                    (arr.length>1) && (ver += ('.' + arr[1]));
-                    this.betaHint = $('<div id="beta-hint"' + style + '>' + (ver + ' (beta)' ) + '</div>').appendTo(this.$el);
+                    (arr.length > 0) && (ver += ('v. ' + arr[0]));
+                    (arr.length > 1) && (ver += ('.' + arr[1]));
+                    this.betaHint = $('<div id="beta-hint"' + style + '>' + (ver + ' (beta)') + '</div>').appendTo(this.$el);
                     this.betaHeight = this.betaHint.outerHeight();
                     !this.devHintInited && $(window).on('resize', _.bind(this.onWindowResize, this));
                     this.devHintInited = true;
@@ -351,13 +352,13 @@ define([
             this.betaHint && this.betaHint.toggleClass('hidden', !beta);
 
             var btns = this.$el.find('button.btn-category:visible'),
-                lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
+                lastbtn = (btns.length > 0) ? $(btns[btns.length - 1]) : null;
             this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
-        setLimitMode: function() {
-            if ( !this.$el.is(':visible') ) return;
+        setLimitMode: function () {
+            if (!this.$el.is(':visible')) return;
 
             if (!this.limitHint) {
                 var str = this.txtLimit.toUpperCase();
@@ -369,14 +370,14 @@ define([
             this.limitHint && this.limitHint.toggleClass('hidden', false);
 
             var btns = this.$el.find('button.btn-category:visible'),
-                lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
+                lastbtn = (btns.length > 0) ? $(btns[btns.length - 1]) : null;
             this.minDevPosition = (lastbtn) ? (Common.Utils.getOffset(lastbtn).top - Common.Utils.getOffset(lastbtn.offsetParent()).top + lastbtn.height() + 20) : 20;
             this.onWindowResize();
         },
 
-        onWindowResize: function() {
+        onWindowResize: function () {
             var height = (this.devHeight || 0) + (this.betaHeight || 0) + (this.limitHeight || 0);
-            var top = Math.max((this.$el.height()-height)/2, this.minDevPosition);
+            var top = Math.max((this.$el.height() - height) / 2, this.minDevPosition);
             if (this.developerHint) {
                 this.developerHint.css('top', top);
                 top += this.devHeight;
@@ -397,11 +398,11 @@ define([
             Common.UI.SideMenu.prototype.setButtons.apply(this, [allButtons]);
         },
 
-        tipChat     : 'Chat',
-        tipAbout    : 'About',
-        tipSupport  : 'Feedback & Support',
-        tipSearch   : 'Search',
-        tipPlugins  : 'Plugins',
+        tipChat: 'Chat',
+        tipAbout: 'About',
+        tipSupport: 'Feedback & Support',
+        tipSearch: 'Search',
+        tipPlugins: 'Plugins',
         tipPages: 'Pages',
         txtDeveloper: 'DEVELOPER MODE',
         txtTrial: 'TRIAL MODE',
