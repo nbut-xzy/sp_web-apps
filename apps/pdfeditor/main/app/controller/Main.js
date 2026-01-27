@@ -1024,7 +1024,7 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
-                Common.Utils.InternalSettings.set("pdfe-settings-livecomment", true);
+                Common.Utils.InternalSettings.set("pdfe-settings-livecomment", false);
                 Common.Utils.InternalSettings.set("pdfe-settings-resolvedcomment", false);
 
                 if (zf == -1) {
