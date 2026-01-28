@@ -885,7 +885,7 @@ define([
                     this.chShowComments = new Common.UI.CheckBox({
                         lock: [_set.disableOnStart],
                         labelText: this.capBtnShowComments,
-                        value: true,
+                        value: false,
                         dataHint    : '1',
                         dataHintDirection: 'left',
                         dataHintOffset: 'small'
