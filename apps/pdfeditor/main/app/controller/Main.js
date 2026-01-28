@@ -1434,7 +1434,6 @@ define([
                                             this.appOptions.isPDFEdit ? Asc.c_oAscRestrictionType.None : Asc.c_oAscRestrictionType.View);
 
                 this.api.asc_LoadDocument();
-                this.api.asc_hideComments();
             },
 
             loadCoAuthSettings: function() {
