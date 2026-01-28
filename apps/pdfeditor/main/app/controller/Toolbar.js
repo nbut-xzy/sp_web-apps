@@ -2527,6 +2527,7 @@ define([
                 me.onPluginToolbarCustomMenuItems(plugin.action, plugin.data);
             });
             this._state.customPluginData = null;
+            this.api.asc_hideComments();
         },
 
         textWarning: 'Warning',
