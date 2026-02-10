@@ -378,9 +378,9 @@ define([
 
         handleDocumentScroll: function(event) {
             var me = this;
+            console.log('handleDocumentScroll', me, event);
             if (!me.documentHolder) return;
 
-            console.log('handleDocumentScroll', event);
             // try {
             //     var $el = $(me.documentHolder.el);
             //     me._scrollTop = $el.scrollTop();
@@ -481,6 +481,9 @@ define([
 
             !Common.Utils.isChrome ? $(document).on('mousewheel', _.bind(me.handleDocumentWheel, me)) :
                 document.addEventListener('mousewheel', _.bind(me.handleDocumentWheel, me), {passive: false});
+
+            !Common.Utils.isChrome ? $(document).on('scroll', _.bind(me.handleDocumentScroll, me)) :
+                document.addEventListener('scroll', _.bind(me.handleDocumentScroll, me), {passive: false});
             $(document).on('keydown', _.bind(me.handleDocumentKeyDown, me));
 
             $(window).on('resize', _.bind(me.onDocumentHolderResize, me));
