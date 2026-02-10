@@ -375,6 +375,20 @@ define([
             }
         },
 
+        handleDocumentScroll: function(event) {
+            var me = this;
+            if (!me.documentHolder) return;
+
+            console.log('handleDocumentScroll', event);
+            // try {
+            //     var $el = $(me.documentHolder.el);
+            //     me._scrollTop = $el.scrollTop();
+            //     me._scrollLeft = $el.scrollLeft();
+            // } catch (e) {
+            // }
+
+        },
+
         handleDocumentKeyDown: function(event){
             var me = this;
             if (me.api){
@@ -459,6 +473,7 @@ define([
 
                 var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
                 addEvent(me.documentHolder.el, eventname, _.bind(me.handleDocumentWheel, me));
+                addEvent(me.documentHolder.el, 'scroll', _.bind(me.handleDocumentScroll, me));
             }
 
             !Common.Utils.isChrome ? $(document).on('mousewheel', _.bind(me.handleDocumentWheel, me)) :
