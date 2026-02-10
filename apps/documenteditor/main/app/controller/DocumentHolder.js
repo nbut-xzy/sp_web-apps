@@ -474,6 +474,7 @@ define([
                 var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
                 addEvent(me.documentHolder.el, eventname, _.bind(me.handleDocumentWheel, me));
                 addEvent(me.documentHolder.el, 'scroll', _.bind(me.handleDocumentScroll, me));
+                console.log('addEvent', me.documentHolder.el, eventname, me.handleDocumentWheel, me.handleDocumentScroll);
             }
 
             !Common.Utils.isChrome ? $(document).on('mousewheel', _.bind(me.handleDocumentWheel, me)) :
