@@ -442,6 +442,7 @@ define([
         onAfterRender: function(ct){
             var me = this;
             var meEl = me.documentHolder.cmpEl;
+            console.log('onAfterRender', meEl);
             if (meEl) {
                 meEl.on('contextmenu', function(e) {
                     e.preventDefault();
