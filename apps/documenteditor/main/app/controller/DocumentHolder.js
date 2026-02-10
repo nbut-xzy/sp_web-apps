@@ -354,6 +354,7 @@ define([
 
         handleDocumentWheel: function(event) {
             var me = this;
+            console.log('handleDocumentWheel', me, event);
             if (me.api) {
                 var delta = (_.isUndefined(event.originalEvent)) ? event.wheelDelta : event.originalEvent.wheelDelta;
                 if (_.isUndefined(delta)) {
