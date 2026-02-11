@@ -198,6 +198,7 @@ define([
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onTextLanguage',                 _.bind(this.onTextLanguage, this));
                 this.api.asc_registerCallback('asc_onParaStyleName',                _.bind(this.onApiParagraphStyleChange, this));
+                this.api.asc_registerCallback('asc_onScrollVEnd',                _.bind(this.handleScrollVEnd, this));
                 this.documentHolder.setApi(this.api);
             }
 
@@ -375,16 +376,6 @@ define([
             }
         },
 
-        handleCorrectVerticalScroll: function(event) {
-            var me = this;
-            console.log('handleCorrectVerticalScroll', event);
-        },
-
-        handleScrollvertical: function(event) {
-            var me = this;
-            console.log('handleScrollvertical', event);
-        },
-
         handleScrollVEnd: function(event) {
             var me = this;
             console.log('handleScrollVEnd', event);
@@ -474,10 +465,6 @@ define([
 
                 var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
                 addEvent(me.documentHolder.el, eventname, _.bind(me.handleDocumentWheel, me));
-                addEvent(me.documentHolder.el, 'correctVerticalScroll', _.bind(me.handleCorrectVerticalScroll, me));
-                addEvent(me.documentHolder.el, 'scrollvertical', _.bind(me.handleScrollvertical, me));
-                addEvent(me.documentHolder.el, 'scrollVEnd', _.bind(me.handleScrollVEnd, me));
-                console.log('eventListeners', me.documentHolder.el.eventListeners);
             }
 
             !Common.Utils.isChrome ? $(document).on('mousewheel', _.bind(me.handleDocumentWheel, me)) :
