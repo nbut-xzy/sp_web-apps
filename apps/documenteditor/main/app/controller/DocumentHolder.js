@@ -375,6 +375,21 @@ define([
             }
         },
 
+        handleCorrectVerticalScroll: function(event) {
+            var me = this;
+            console.log('handleCorrectVerticalScroll', event);
+        },
+
+        handleScrollvertical: function(event) {
+            var me = this;
+            console.log('handleScrollvertical', event);
+        },
+
+        handleScrollVEnd: function(event) {
+            var me = this;
+            console.log('handleScrollVEnd', event);
+        },
+
         handleDocumentKeyDown: function(event){
             var me = this;
             if (me.api){
@@ -459,6 +474,10 @@ define([
 
                 var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
                 addEvent(me.documentHolder.el, eventname, _.bind(me.handleDocumentWheel, me));
+                addEvent(me.documentHolder.el, 'oncorrectVerticalScroll', _.bind(me.handleCorrectVerticalScroll, me));
+                addEvent(me.documentHolder.el, 'onscrollvertical', _.bind(me.handleScrollvertical, me));
+                addEvent(me.documentHolder.el, 'onscrollVEnd', _.bind(me.handleScrollVEnd, me));
+                console.log('eventListeners', me.documentHolder.el.eventListeners);
             }
 
             !Common.Utils.isChrome ? $(document).on('mousewheel', _.bind(me.handleDocumentWheel, me)) :
