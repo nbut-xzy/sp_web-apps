@@ -474,9 +474,9 @@ define([
 
                 var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
                 addEvent(me.documentHolder.el, eventname, _.bind(me.handleDocumentWheel, me));
-                addEvent(me.documentHolder.el, 'oncorrectVerticalScroll', _.bind(me.handleCorrectVerticalScroll, me));
-                addEvent(me.documentHolder.el, 'onscrollvertical', _.bind(me.handleScrollvertical, me));
-                addEvent(me.documentHolder.el, 'onscrollVEnd', _.bind(me.handleScrollVEnd, me));
+                addEvent(me.documentHolder.el, 'correctVerticalScroll', _.bind(me.handleCorrectVerticalScroll, me));
+                addEvent(me.documentHolder.el, 'scrollvertical', _.bind(me.handleScrollvertical, me));
+                addEvent(me.documentHolder.el, 'scrollVEnd', _.bind(me.handleScrollVEnd, me));
                 console.log('eventListeners', me.documentHolder.el.eventListeners);
             }
 
