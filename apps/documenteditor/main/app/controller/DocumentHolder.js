@@ -354,7 +354,6 @@ define([
 
         handleDocumentWheel: function(event) {
             var me = this;
-            console.log('handleDocumentWheel', me, event);
             if (me.api) {
                 var delta = (_.isUndefined(event.originalEvent)) ? event.wheelDelta : event.originalEvent.wheelDelta;
                 if (_.isUndefined(delta)) {
@@ -374,20 +373,6 @@ define([
                     event.stopPropagation();
                 }
             }
-        },
-
-        handleDocumentScroll: function(event) {
-            var me = this;
-            console.log('handleDocumentScroll', me, event);
-            if (!me.documentHolder) return;
-
-            // try {
-            //     var $el = $(me.documentHolder.el);
-            //     me._scrollTop = $el.scrollTop();
-            //     me._scrollLeft = $el.scrollLeft();
-            // } catch (e) {
-            // }
-
         },
 
         handleDocumentKeyDown: function(event){
@@ -443,7 +428,6 @@ define([
         onAfterRender: function(ct){
             var me = this;
             var meEl = me.documentHolder.cmpEl;
-            console.log('onAfterRender', meEl);
             if (meEl) {
                 meEl.on('contextmenu', function(e) {
                     e.preventDefault();
@@ -475,15 +459,10 @@ define([
 
                 var eventname=(/Firefox/i.test(navigator.userAgent))? 'DOMMouseScroll' : 'mousewheel';
                 addEvent(me.documentHolder.el, eventname, _.bind(me.handleDocumentWheel, me));
-                addEvent(me.documentHolder.el, 'scroll', _.bind(me.handleDocumentScroll, me));
-                console.log('addEvent', me.documentHolder.el, eventname, me.handleDocumentWheel, me.handleDocumentScroll);
             }
 
             !Common.Utils.isChrome ? $(document).on('mousewheel', _.bind(me.handleDocumentWheel, me)) :
                 document.addEventListener('mousewheel', _.bind(me.handleDocumentWheel, me), {passive: false});
-
-            !Common.Utils.isChrome ? $(document).on('scroll', _.bind(me.handleDocumentScroll, me)) :
-                document.addEventListener('scroll', _.bind(me.handleDocumentScroll, me), {passive: false});
             $(document).on('keydown', _.bind(me.handleDocumentKeyDown, me));
 
             $(window).on('resize', _.bind(me.onDocumentHolderResize, me));
