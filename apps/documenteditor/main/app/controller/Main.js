@@ -1540,9 +1540,7 @@ define([
             },
 
             onScrollVEnd: function(event) {
-                if ( this._isDocReady ){
-                    Common.Gateway.documentScrollVEnd();
-                }
+                Common.Gateway.documentScrollVEnd();
             },
 
             onLicenseChanged: function(params) {
