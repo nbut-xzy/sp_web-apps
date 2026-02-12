@@ -198,7 +198,8 @@ define([
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onTextLanguage',                 _.bind(this.onTextLanguage, this));
                 this.api.asc_registerCallback('asc_onParaStyleName',                _.bind(this.onApiParagraphStyleChange, this));
-                this.api.asc_registerCallback('asc_onScrollVEnd',                _.bind(this.handleScrollVEnd, this));
+                this.api.asc_registerCallback('asc_onDocumentContentReady',         _.bind(this.onDocumentContentReady, this));
+                this.api.asc_registerCallback('asc_onScrollVEnd',                   _.bind(this.onScrollVEnd, this));
                 this.documentHolder.setApi(this.api);
             }
 
@@ -278,6 +279,16 @@ define([
         fillViewMenuProps: function(selectedElements) {},
 
         fillFormsMenuProps: function(selectedElements) {},
+
+        onDocumentContentReady: function() {
+            this.is_ready = true;
+        },
+
+        onScrollVEnd: function(event) {
+            if ( this.is_ready ){
+                Common.Gateway.documentScrollVEnd();
+            }
+        },
 
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
@@ -374,10 +385,6 @@ define([
                     event.stopPropagation();
                 }
             }
-        },
-
-        handleScrollVEnd: function(event) {
-            Common.Gateway.documentScrollVEnd();
         },
 
         handleDocumentKeyDown: function(event){
