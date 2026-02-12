@@ -355,6 +355,10 @@ Common.Gateway = new (function () {
             _postMessage({ event: 'onDocumentReady' });
         },
 
+        documentScrollVEnd: function () {
+            _postMessage({ event: 'onDocumentScrollVEnd' });
+        },
+
         requestClose: function () {
             _postMessage({ event: 'onRequestClose' });
         },

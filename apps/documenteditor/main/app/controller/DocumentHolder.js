@@ -377,8 +377,8 @@ define([
         },
 
         handleScrollVEnd: function(event) {
-            var me = this;
             console.log('handleScrollVEnd', event);
+            Common.Gateway.documentScrollVEnd();
         },
 
         handleDocumentKeyDown: function(event){
