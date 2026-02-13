@@ -209,6 +209,7 @@ define([
             this.api = api;
             if (this.api) {
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onApiCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onScrollVEnd',           _.bind(this.onScrollVEnd, this));
                 Common.NotificationCenter.on('api:disconnect',              _.bind(this.onApiCoAuthoringDisconnect, this));
                 this.permissions && (this.permissions.isEdit===true) && this.api.asc_registerCallback('asc_onLockDefNameManager', _.bind(this.onLockDefNameManager, this));
 
@@ -433,6 +434,10 @@ define([
             if (e && e.target.localName !== 'canvas') {
                 this.hideHyperlinkTip();
             }
+        },
+
+        onScrollVEnd: function(event) {
+            Common.Gateway.documentScrollVEnd();
         },
 
         showObjectMenu: function(event, type){

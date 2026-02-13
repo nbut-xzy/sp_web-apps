@@ -195,6 +195,7 @@ define([
                     this.api.asc_registerCallback('asc_onUnLockDocumentProps',      _.bind(this.onApiUnLockDocumentProps, this));
                 }
                 this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(this.onCoAuthoringDisconnect, this));
+                this.api.asc_registerCallback('asc_onScrollVEnd',                   _.bind(this.onScrollVEnd, this));
                 Common.NotificationCenter.on('api:disconnect',                      _.bind(this.onCoAuthoringDisconnect, this));
                 this.api.asc_registerCallback('asc_onTextLanguage',                 _.bind(this.onTextLanguage, this));
                 this.api.asc_registerCallback('asc_onParaStyleName',                _.bind(this.onApiParagraphStyleChange, this));
@@ -277,6 +278,10 @@ define([
         fillViewMenuProps: function(selectedElements) {},
 
         fillFormsMenuProps: function(selectedElements) {},
+
+        onScrollVEnd: function(event) {
+            Common.Gateway.documentScrollVEnd();
+        },
 
         showObjectMenu: function(event, docElement, eOpts){
             var me = this;
