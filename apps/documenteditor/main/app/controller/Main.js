@@ -1381,6 +1381,7 @@ define([
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
                 me.api.asc_registerCallback('asc_onScrollVEnd',             _.bind(me.onScrollVEnd, me));
+                me.api.asc_registerCallback('asc_onUpdateScrolls',          _.bind(me.onUpdateScrolls, me));
 
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
@@ -1541,6 +1542,10 @@ define([
 
             onScrollVEnd: function(event) {
                 Common.Gateway.documentScrollVEnd();
+            },
+
+            onUpdateScrolls: function(a,b) {
+                console.log('onUpdateScrolls', a,b);
             },
 
             onLicenseChanged: function(params) {
