@@ -1380,7 +1380,6 @@ define([
                 me.api.asc_registerCallback('asc_onCompletePreparingOForm',     _.bind(me.onCompletePreparingOForm, me));
                 me.api.asc_registerCallback('asc_onPrint',                  _.bind(me.onPrint, me));
                 me.api.asc_registerCallback('asc_onConfirmAction',          _.bind(me.onConfirmAction, me));
-                me.api.asc_registerCallback('asc_onUpdateScrolls',          _.bind(me.onUpdateScrolls, me));
 
                 appHeader.setDocumentCaption(me.api.asc_getDocumentName());
                 me.updateWindowTitle(true);
@@ -1537,10 +1536,6 @@ define([
                 this.appOptions.user.guest && this.appOptions.canRenameAnonymous && (Common.Utils.InternalSettings.get("guest-username")===null) && this.showRenameUserDialog();
                 if (this._needToSaveAsFile) // warning received before document is ready
                     this.getApplication().getController('LeftMenu').leftMenu.showMenu('file:saveas');
-            },
-
-            onUpdateScrolls: function(a,b) {
-                console.log('onUpdateScrolls', a,b);
             },
 
             onLicenseChanged: function(params) {
